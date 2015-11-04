@@ -143,10 +143,14 @@
     "tsd.json",
     "www\\modules\\tabs\\templates\\tabs.html"
   ],
-  "deletedFilesIos": [],
+  "deletedFilesIos": [
+    "www\\modules\\side\\views\\kmibjpwq.1zg~"
+  ],
   "addedPluginsIos": [],
   "deletedPluginsIos": [],
-  "changedFiles": [],
+  "changedFiles": [
+    "www\\modules\\side\\views\\left.html"
+  ],
   "deletedFiles": [],
   "addedPlugins": [],
   "deletedPlugins": []
