@@ -2,17 +2,26 @@
     <ion-content>
         <div class="list">
             <label class="item item-input item-floating-label">
+                <span class="input-label">User Id</span>
+                <input type="text" placeholder="User Id" ng-model="userId">
+            </label>
+            <label class="item item-input item-floating-label">
+                <span class="input-label">Email</span>
+                <input type="email" placeholder="Email" ng-model="email">
+            </label>
+            <label class="item item-input item-floating-label">
                 <span class="input-label">First Name</span>
-                <input type="text" 
-                       placeholder="First Name">
+                <input type="text" placeholder="First Name" ng-model="firstName">
             </label>
             <label class="item item-input item-floating-label">
                 <span class="input-label">Last Name</span>
-                <input type="text" 
-                       placeholder="Last Name">
+                <input type="text" placeholder="Last Name" ng-model="lastName">
             </label>
         </div>
-
+        <div>userId: {{userId}}</div>
+        <div>email: {{email}}</div>
+        <div>firstName: {{firstName}}</div>
+        <div>lastName: {{lastName}}</div>
         <div class="padding">
             <a class="button button-block button-positive icon icon-right ion-chevron-right" ui-sref="tabs.scroll">Submit</a>
         </div>
