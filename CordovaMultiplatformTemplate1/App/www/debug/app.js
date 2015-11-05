@@ -47,6 +47,7 @@ var App;
     }
     statesConfiguration.$inject = ["$urlRouterProvider", "$ionicConfigProvider"];
 })(App || (App = {}));
+
 var Actions;
 (function (Actions) {
     'use strict';
@@ -68,6 +69,7 @@ var Actions;
     }
     statesConfiguration.$inject = ["$stateProvider"];
 })(Actions || (Actions = {}));
+
 var Buttons;
 (function (Buttons) {
     'use strict';
@@ -88,11 +90,13 @@ var Buttons;
     }
     statesConfiguration.$inject = ["$stateProvider"];
 })(Buttons || (Buttons = {}));
+
 var Core;
 (function (Core) {
     'use strict';
     angular.module(Constants.Paths.Core, []);
 })(Core || (Core = {}));
+
 var Home;
 (function (Home) {
     'use strict';
@@ -121,6 +125,7 @@ var Home;
     }
     statesConfiguration.$inject = ["$stateProvider"];
 })(Home || (Home = {}));
+
 var Side;
 (function (Side) {
     'use strict';
@@ -141,6 +146,7 @@ var Side;
     }
     statesConfiguration.$inject = ["$stateProvider"];
 })(Side || (Side = {}));
+
 var Tabs;
 (function (Tabs) {
     'use strict';
@@ -157,6 +163,7 @@ var Tabs;
     }
     statesConfiguration.$inject = ["$stateProvider"];
 })(Tabs || (Tabs = {}));
+
 var Actions;
 (function (Actions) {
     'use strict';
@@ -181,10 +188,12 @@ var Actions;
     angular.module(Constants.Paths.Actions.Base)
         .controller('actionsController', ActionsController);
 })(Actions || (Actions = {}));
+
 var Core;
 (function (Core) {
     'use strict';
 })(Core || (Core = {}));
+
 var Core;
 (function (Core) {
     'using strict';
@@ -208,6 +217,7 @@ var Core;
     angular.module(Constants.Paths.Core)
         .service('loadingService', LoadingService);
 })(Core || (Core = {}));
+
 var Tabs;
 (function (Tabs) {
     'use strict';

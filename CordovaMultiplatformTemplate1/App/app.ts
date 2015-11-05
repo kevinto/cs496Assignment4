@@ -1,5 +1,5 @@
 ﻿/// <reference path="constants/paths.ts" />
-
+// This code really isnt used...
 module App {
     'use strict';
 
