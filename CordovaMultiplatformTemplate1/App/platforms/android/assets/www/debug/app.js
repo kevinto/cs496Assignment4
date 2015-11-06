@@ -11,7 +11,7 @@ var Constants;
         },
         Home: {
             Base: 'home',
-            Scroll: 'scroll'
+            Edit: 'editStocks'
         },
         Actions: {
             Base: 'actions'
@@ -140,13 +140,13 @@ var Home;
                 }
             }
         })
-            .state(Paths.Tabs + '.' + Page.Scroll, {
-            url: '/' + Page.Scroll,
-            views: {
-                'home-tab': {
-                    templateUrl: Paths.Modules + 'home/views/scroll.html'
+            .state(Paths.Tabs + '.' + Page.Edit, {
+                url: '/' + Page.Edit,
+                views: {
+                    'home-tab': {
+                        templateUrl: Paths.Modules + 'home/views/editStocks.html'
+                    }
                 }
-            }
         });
     }
     statesConfiguration.$inject = ["$stateProvider"];

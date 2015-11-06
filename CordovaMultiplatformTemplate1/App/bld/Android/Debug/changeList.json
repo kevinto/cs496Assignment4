@@ -75,7 +75,6 @@
     "scss\\vendor\\ionic\\scss\\_type.scss",
     "merges\\android\\modules\\tabs\\templates\\tabs.html",
     "scss\\vendor\\ionic\\scss\\_button-bar.scss",
-    "www\\modules\\home\\views\\scroll.html",
     "res\\icons\\ios\\icon-60-3x.png",
     "config.xml",
     "res\\screens\\ios\\screen-ipad-landscape-2x.png",
@@ -157,14 +156,16 @@
     "res\\icons\\windows\\Square44x44Logo.scale-240.png",
     "res\\screens\\android\\screen-mdpi-portrait.png",
     "tsd.json",
-    "www\\modules\\tabs\\templates\\tabs.html"
+    "www\\modules\\tabs\\templates\\tabs.html",
+    "www\\modules\\home\\views\\editStocks.html"
   ],
-  "deletedFilesIos": [],
+  "deletedFilesIos": [
+    "www\\modules\\home\\views\\scroll.html"
+  ],
   "addedPluginsIos": [],
   "deletedPluginsIos": [],
   "changedFiles": [
-    "merges\\android\\modules\\tabs\\templates\\wrapper.html",
-    "www\\modules\\tabs\\templates\\wrapper.html"
+    "www\\debug\\app.js"
   ],
   "deletedFiles": [],
   "addedPlugins": [],
