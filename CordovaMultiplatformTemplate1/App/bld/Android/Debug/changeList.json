@@ -157,7 +157,9 @@
     "res\\screens\\android\\screen-mdpi-portrait.png",
     "tsd.json",
     "www\\modules\\tabs\\templates\\tabs.html",
-    "www\\modules\\home\\views\\editStocks.html"
+    "www\\modules\\home\\views\\editStocks.html",
+    "merges\\android\\modules\\home\\views\\home.html~RFa639aaf.TMP",
+    "merges\\android\\modules\\home\\views\\home.html~RFa64aecb.TMP"
   ],
   "deletedFilesIos": [
     "www\\modules\\home\\views\\scroll.html"
@@ -165,7 +167,8 @@
   "addedPluginsIos": [],
   "deletedPluginsIos": [],
   "changedFiles": [
-    "www\\debug\\app.js"
+    "merges\\android\\modules\\home\\views\\home.html",
+    "merges\\android\\modules\\home\\views\\home.html~RFa64aecb.TMP"
   ],
   "deletedFiles": [],
   "addedPlugins": [],
