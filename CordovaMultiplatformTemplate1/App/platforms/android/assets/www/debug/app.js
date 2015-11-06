@@ -70,6 +70,32 @@ var Actions;
     statesConfiguration.$inject = ["$stateProvider"];
 })(Actions || (Actions = {}));
 
+var Actions;
+(function (Actions) {
+    'use strict';
+    var ActionsController = (function () {
+        function ActionsController(loadingService) {
+            this.loadingService = loadingService;
+            this.text = '';
+            this.addTextAsync();
+        }
+        ActionsController.$inject = ["loadingService"];
+        ActionsController.prototype.addTextAsync = function () {
+            var _this = this;
+            this.loadingService.show();
+            window.setTimeout(function () {
+                _this.text += '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam tincidunt lacinia augue vehicula molestie. Proin a dui dignissim, ornare nulla ut, venenatis nisi. Proin accumsan tortor purus, a venenatis augue vestibulum porta. In faucibus ligula eu metus tempor, a ornare enim finibus. Donec ullamcorper risus sem, quis laoreet mauris pharetra in. Vestibulum tempus ipsum eget dolor ornare auctor. Ut pulvinar ac nibh ac lobortis.</p>';
+                _this.loadingService.hide();
+            }, Math.floor(Math.random() * 3000));
+        };
+        return ActionsController;
+    })();
+    Actions.ActionsController = ActionsController;
+    angular.module(Constants.Paths.Actions.Base)
+        .controller('actionsController', ActionsController);
+})(Actions || (Actions = {}));
+
+
 var Buttons;
 (function (Buttons) {
     'use strict';
@@ -163,31 +189,6 @@ var Tabs;
     }
     statesConfiguration.$inject = ["$stateProvider"];
 })(Tabs || (Tabs = {}));
-
-var Actions;
-(function (Actions) {
-    'use strict';
-    var ActionsController = (function () {
-        function ActionsController(loadingService) {
-            this.loadingService = loadingService;
-            this.text = '';
-            this.addTextAsync();
-        }
-        ActionsController.$inject = ["loadingService"];
-        ActionsController.prototype.addTextAsync = function () {
-            var _this = this;
-            this.loadingService.show();
-            window.setTimeout(function () {
-                _this.text += '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam tincidunt lacinia augue vehicula molestie. Proin a dui dignissim, ornare nulla ut, venenatis nisi. Proin accumsan tortor purus, a venenatis augue vestibulum porta. In faucibus ligula eu metus tempor, a ornare enim finibus. Donec ullamcorper risus sem, quis laoreet mauris pharetra in. Vestibulum tempus ipsum eget dolor ornare auctor. Ut pulvinar ac nibh ac lobortis.</p>';
-                _this.loadingService.hide();
-            }, Math.floor(Math.random() * 3000));
-        };
-        return ActionsController;
-    })();
-    Actions.ActionsController = ActionsController;
-    angular.module(Constants.Paths.Actions.Base)
-        .controller('actionsController', ActionsController);
-})(Actions || (Actions = {}));
 
 var Core;
 (function (Core) {
