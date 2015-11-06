@@ -74,19 +74,14 @@ var Actions;
 (function (Actions) {
     'use strict';
     var ActionsController = (function () {
-        function ActionsController(loadingService) {
-            this.loadingService = loadingService;
+        function ActionsController() {
             this.text = '';
             this.addTextAsync();
         }
-        ActionsController.$inject = ["loadingService"];
+        
         ActionsController.prototype.addTextAsync = function () {
             var _this = this;
-            this.loadingService.show();
-            window.setTimeout(function () {
-                _this.text += '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam tincidunt lacinia augue vehicula molestie. Proin a dui dignissim, ornare nulla ut, venenatis nisi. Proin accumsan tortor purus, a venenatis augue vestibulum porta. In faucibus ligula eu metus tempor, a ornare enim finibus. Donec ullamcorper risus sem, quis laoreet mauris pharetra in. Vestibulum tempus ipsum eget dolor ornare auctor. Ut pulvinar ac nibh ac lobortis.</p>';
-                _this.loadingService.hide();
-            }, Math.floor(Math.random() * 3000));
+            _this.text += '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam tincidunt lacinia augue vehicula molestie. Proin a dui dignissim, ornare nulla ut, venenatis nisi. Proin accumsan tortor purus, a venenatis augue vestibulum porta. In faucibus ligula eu metus tempor, a ornare enim finibus. Donec ullamcorper risus sem, quis laoreet mauris pharetra in. Vestibulum tempus ipsum eget dolor ornare auctor. Ut pulvinar ac nibh ac lobortis.</p>';
         };
         return ActionsController;
     })();
@@ -136,6 +131,7 @@ var Home;
             url: '/' + Page.Base,
             views: {
                 'home-tab': {
+                    //controller: 'userController as vm',
                     templateUrl: Paths.Modules + 'home/views/home.html'
                 }
             }
@@ -143,8 +139,9 @@ var Home;
             .state(Paths.Tabs + '.' + Page.Edit, {
                 url: '/' + Page.Edit,
                 views: {
-                    'home-tab': {
-                        templateUrl: Paths.Modules + 'home/views/editStocks.html'
+                    'actions-tab': {
+                        //templateUrl: Paths.Modules + 'home/views/editStocks.html'
+                        templateUrl: Paths.Modules + 'actions/views/actions.html'
                     }
                 }
         });
