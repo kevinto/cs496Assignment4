@@ -74,21 +74,31 @@ var Actions;
 (function (Actions) {
     'use strict';
     var ActionsController = (function () {
-        function ActionsController() {
+        function ActionsController($window) {
             this.text = '';
             this.homeText = '';
             this.addTextAsync();
+            this.$window = $window;
         }
         
         ActionsController.prototype.addTextAsync = function () {
             var _this = this;
-            //var blah = this.$window.localStorage
-            _this.text += '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam tincidunt lacinia augue vehicula molestie. Proin a dui dignissim, ornare nulla ut, venenatis nisi. Proin accumsan tortor purus, a venenatis augue vestibulum porta. In faucibus ligula eu metus tempor, a ornare enim finibus. Donec ullamcorper risus sem, quis laoreet mauris pharetra in. Vestibulum tempus ipsum eget dolor ornare auctor. Ut pulvinar ac nibh ac lobortis.</p>';
+            _this.text += '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>';
         };
 
+        ActionsController.$inject = ["$window"];
         ActionsController.prototype.navigateToStockViewTab = function () {
             var _this = this;
             _this.homeText += '<p>You are in the navigate to stock view tab</p>';
+            //this.blah.$location.path(Constants.Paths.Modules + 'actions/views/actions.html');
+            // Redirect
+            //$window.location.href = Paths.Modules + 'actions/views/actions.html';
+
+            // this location thing isnt working
+            //_this.$location.path(Constants.Paths.Modules + 'actions/views/actions.html');
+            //_this.$location.replace();
+            _this.$window.location.href = Constants.Paths.Modules + 'actions/views/actions.html';
+            console.log("hello");
         };
 
         return ActionsController;
