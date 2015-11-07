@@ -77,14 +77,8 @@ var Actions;
         function ActionsController($state) {
             this.text = '';
             this.homeText = '';
-            this.addTextAsync();
             this.$state = $state;
         }
-        
-        ActionsController.prototype.addTextAsync = function () {
-            var _this = this;
-            _this.text += '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>';
-        };
 
         ActionsController.$inject = ["$state"];
         ActionsController.prototype.navigateToStockViewTab = function () {
