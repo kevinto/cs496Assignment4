@@ -360,7 +360,8 @@
     "tsd.json",
     "www\\modules\\tabs\\templates\\tabs.html",
     "www\\debug\\app.js~RF5a0dfa1.TMP",
-    "www\\debug\\app.js~RF5a18996.TMP"
+    "www\\debug\\app.js~RF5a18996.TMP",
+    "www\\modules\\actions\\views\\actions.html~RF644e0dd.TMP"
   ],
   "deletedFilesIos": [],
   "addedPluginsIos": [
@@ -369,7 +370,11 @@
     "cordova-plugin-file-transfer@1.3.0"
   ],
   "deletedPluginsIos": [],
-  "changedFiles": [],
+  "changedFiles": [
+    "merges\\android\\modules\\home\\views\\home.html",
+    "www\\modules\\actions\\views\\actions.html",
+    "www\\modules\\buttons\\views\\buttons.html"
+  ],
   "deletedFiles": [],
   "addedPlugins": [],
   "deletedPlugins": []

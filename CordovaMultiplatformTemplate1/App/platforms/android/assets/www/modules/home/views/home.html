@@ -1,4 +1,4 @@
-﻿<ion-view view-title="Home">
+﻿<ion-view view-title="User">
     <ion-content>
         <h2>Enter User Information: </h2>
         <div class="list">
@@ -21,10 +21,13 @@
             <article ng-bind-html=vm.homeText></article>
         </div>
         <div class="padding">
-            <a class="button button-block button-positive icon icon-right ion-chevron-right" ui-sref="tabs.editStocks">
+            <!--<a class="button button-block button-positive icon icon-right ion-chevron-right" ui-sref="tabs.editStocks">
+                Edit Stocks
+            </a>-->
+            <a class="button button-block button-positive icon icon-right ion-chevron-right" ng-click=vm.navigateToStockViewTab()>
                 Edit Stocks
             </a>
         </div>
-        <button class="button button-clear button-calm icon icon-only ion-ionic" ng-click=vm.navigateToStockViewTab()></button>
+        <!--<button class="button button-clear button-calm icon icon-only ion-ionic" ng-click=vm.navigateToStockViewTab()></button>-->
     </ion-content>
 </ion-view>

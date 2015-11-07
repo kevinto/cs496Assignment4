@@ -89,20 +89,7 @@ var Actions;
         ActionsController.$inject = ["$state"];
         ActionsController.prototype.navigateToStockViewTab = function () {
             var _this = this;
-            _this.homeText += '<p>You are in the navigate to stock view tab</p>';
-            //this.blah.$location.path(Constants.Paths.Modules + 'actions/views/actions.html');
-            // Redirect
-            //$window.location.href = Paths.Modules + 'actions/views/actions.html';
-
-            // this location thing isnt working
-            //_this.$location.path(Constants.Paths.Modules + 'actions/views/actions.html');
-            //_this.$location.replace();
-
-            // works but not what i wanted
-            //_this.$window.location.href = Constants.Paths.Modules + 'actions/views/actions.html';
-            //_this.$state.go(Constants.Paths.Tabs + Constants.Paths.Actions.Base);
-            _this.$state.go('tabs.actions');
-            console.log("hello");
+            _this.$state.go('tabs.actions'); 
         };
 
         return ActionsController;
@@ -111,7 +98,6 @@ var Actions;
     angular.module(Constants.Paths.Actions.Base)
         .controller('actionsController', ActionsController);
 })(Actions || (Actions = {}));
-
 
 var Buttons;
 (function (Buttons) {
