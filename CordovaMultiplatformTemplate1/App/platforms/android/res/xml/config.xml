@@ -1,6 +1,17 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget defaultlocale="en-US" id="io.cordova.myapp37fa9479f98a49f4a53ab78472334b16" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:vs="http://schemas.microsoft.com/appx/2014/htmlapps">
     <preference name="loglevel" value="DEBUG" />
+    <feature name="Device">
+        <param name="android-package" value="org.apache.cordova.device.Device" />
+    </feature>
+    <feature name="File">
+        <param name="android-package" value="org.apache.cordova.file.FileUtils" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="FileTransfer">
+        <param name="android-package" value="org.apache.cordova.filetransfer.FileTransfer" />
+    </feature>
+    <preference name="AndroidPersistentFileLocation" value="Internal" />
     <icon density="ldpi" src="res/icons/android/icon-36-ldpi.png" />
     <icon density="mdpi" src="res/icons/android/icon-48-mdpi.png" />
     <icon density="hdpi" src="res/icons/android/icon-72-hdpi.png" />
@@ -22,4 +33,7 @@
     <preference name="SplashScreen" value="screen" />
     <preference name="windows-target-version" value="8.1" />
     <preference name="windows-phone-target-version" value="8.1" />
+    <vs:plugin name="cordova-plugin-device" version="1.0.1" />
+    <vs:plugin name="cordova-plugin-file" version="3.0.0" />
+    <vs:plugin name="cordova-plugin-file-transfer" version="1.3.0" />
 </widget>

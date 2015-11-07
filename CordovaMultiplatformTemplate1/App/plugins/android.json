@@ -4,8 +4,57 @@
         "uninstalled": []
     },
     "config_munge": {
-        "files": {}
+        "files": {
+            "res/xml/config.xml": {
+                "parents": {
+                    "/*": [
+                        {
+                            "xml": "<feature name=\"Device\"><param name=\"android-package\" value=\"org.apache.cordova.device.Device\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"File\"><param name=\"android-package\" value=\"org.apache.cordova.file.FileUtils\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"FileTransfer\"><param name=\"android-package\" value=\"org.apache.cordova.filetransfer.FileTransfer\" /></feature>",
+                            "count": 1
+                        }
+                    ]
+                }
+            },
+            "config.xml": {
+                "parents": {
+                    "/*": [
+                        {
+                            "xml": "<preference name=\"AndroidPersistentFileLocation\" value=\"Internal\" />",
+                            "count": 1
+                        }
+                    ]
+                }
+            },
+            "AndroidManifest.xml": {
+                "parents": {
+                    "/*": [
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
+                            "count": 2
+                        }
+                    ]
+                }
+            }
+        }
     },
-    "installed_plugins": {},
+    "installed_plugins": {
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "io.cordova.myapp37fa9479f98a49f4a53ab78472334b16"
+        },
+        "cordova-plugin-file": {
+            "PACKAGE_NAME": "io.cordova.myapp37fa9479f98a49f4a53ab78472334b16"
+        },
+        "cordova-plugin-file-transfer": {
+            "PACKAGE_NAME": "io.cordova.myapp37fa9479f98a49f4a53ab78472334b16"
+        }
+    },
     "dependent_plugins": {}
 }

@@ -70,6 +70,7 @@ var Actions;
     statesConfiguration.$inject = ["$stateProvider"];
 })(Actions || (Actions = {}));
 
+/// <reference path="App/typings/cordova/plugins/Device.d.ts"/>
 var Actions;
 (function (Actions) {
     'use strict';
@@ -81,6 +82,7 @@ var Actions;
         
         ActionsController.prototype.addTextAsync = function () {
             var _this = this;
+            //var blah = this.$window.localStorage
             _this.text += '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam tincidunt lacinia augue vehicula molestie. Proin a dui dignissim, ornare nulla ut, venenatis nisi. Proin accumsan tortor purus, a venenatis augue vestibulum porta. In faucibus ligula eu metus tempor, a ornare enim finibus. Donec ullamcorper risus sem, quis laoreet mauris pharetra in. Vestibulum tempus ipsum eget dolor ornare auctor. Ut pulvinar ac nibh ac lobortis.</p>';
         };
         return ActionsController;
@@ -141,6 +143,7 @@ var Home;
                 views: {
                     'actions-tab': {
                         //templateUrl: Paths.Modules + 'home/views/editStocks.html'
+                        controller: 'actionsController as vm',
                         templateUrl: Paths.Modules + 'actions/views/actions.html'
                     }
                 }
