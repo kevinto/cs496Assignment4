@@ -74,11 +74,11 @@ var Actions;
 (function (Actions) {
     'use strict';
     var ActionsController = (function () {
-        function ActionsController($window) {
+        function ActionsController($state) {
             this.text = '';
             this.homeText = '';
             this.addTextAsync();
-            this.$window = $window;
+            this.$state = $state;
         }
         
         ActionsController.prototype.addTextAsync = function () {
@@ -86,7 +86,7 @@ var Actions;
             _this.text += '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>';
         };
 
-        ActionsController.$inject = ["$window"];
+        ActionsController.$inject = ["$state"];
         ActionsController.prototype.navigateToStockViewTab = function () {
             var _this = this;
             _this.homeText += '<p>You are in the navigate to stock view tab</p>';
@@ -97,7 +97,11 @@ var Actions;
             // this location thing isnt working
             //_this.$location.path(Constants.Paths.Modules + 'actions/views/actions.html');
             //_this.$location.replace();
-            _this.$window.location.href = Constants.Paths.Modules + 'actions/views/actions.html';
+
+            // works but not what i wanted
+            //_this.$window.location.href = Constants.Paths.Modules + 'actions/views/actions.html';
+            //_this.$state.go(Constants.Paths.Tabs + Constants.Paths.Actions.Base);
+            _this.$state.go('tabs.actions');
             console.log("hello");
         };
 
