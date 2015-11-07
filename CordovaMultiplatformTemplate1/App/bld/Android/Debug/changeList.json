@@ -330,7 +330,8 @@
     "plugins\\cordova-plugin-file-transfer\\www\\blackberry10\\FileTransferProxy.js",
     "plugins\\cordova-plugin-file-transfer\\www\\FileTransferError.js",
     "plugins\\cordova-plugin-file-transfer\\www\\wp7\\base64.js",
-    "plugins\\cordova-plugin-file-transfer\\www\\firefoxos\\FileTransferProxy.js"
+    "plugins\\cordova-plugin-file-transfer\\www\\firefoxos\\FileTransferProxy.js",
+    "www\\debug\\app.js~RF55405c6.TMP"
   ],
   "deletedFilesIos": [],
   "addedPluginsIos": [
@@ -339,7 +340,10 @@
     "cordova-plugin-file-transfer@1.3.0"
   ],
   "deletedPluginsIos": [],
-  "changedFiles": [],
+  "changedFiles": [
+    "www\\debug\\app.js",
+    "www\\debug\\app.js~RF55405c6.TMP"
+  ],
   "deletedFiles": [],
   "addedPlugins": [],
   "deletedPlugins": []

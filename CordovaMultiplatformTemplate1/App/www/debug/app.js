@@ -70,13 +70,13 @@ var Actions;
     statesConfiguration.$inject = ["$stateProvider"];
 })(Actions || (Actions = {}));
 
-/// <reference path="App/typings/cordova/plugins/Device.d.ts"/>
 var Actions;
 (function (Actions) {
     'use strict';
     var ActionsController = (function () {
         function ActionsController() {
             this.text = '';
+            this.homeText = '';
             this.addTextAsync();
         }
         
@@ -85,6 +85,12 @@ var Actions;
             //var blah = this.$window.localStorage
             _this.text += '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam tincidunt lacinia augue vehicula molestie. Proin a dui dignissim, ornare nulla ut, venenatis nisi. Proin accumsan tortor purus, a venenatis augue vestibulum porta. In faucibus ligula eu metus tempor, a ornare enim finibus. Donec ullamcorper risus sem, quis laoreet mauris pharetra in. Vestibulum tempus ipsum eget dolor ornare auctor. Ut pulvinar ac nibh ac lobortis.</p>';
         };
+
+        ActionsController.prototype.navigateToStockViewTab = function () {
+            var _this = this;
+            _this.homeText += '<p>You are in the navigate to stock view tab</p>';
+        };
+
         return ActionsController;
     })();
     Actions.ActionsController = ActionsController;
@@ -133,7 +139,7 @@ var Home;
             url: '/' + Page.Base,
             views: {
                 'home-tab': {
-                    //controller: 'userController as vm',
+                    controller: 'actionsController as vm',
                     templateUrl: Paths.Modules + 'home/views/home.html'
                 }
             }
