@@ -1,12 +1,17 @@
 <ion-view view-title="View Stocks">
     <ion-nav-buttons side=right>
         <!--<button class="button button-clear button-calm icon icon-only ion-ionic" ng-click=vm.addTextAsync()></button>-->
-        <button class="button button-clear button-calm icon icon-only ion-ionic" ng-click=vm.navigateToStockViewTab()></button>
+        <button class="button button-clear button-calm icon icon-only ion-ionic" ng-click=vm.addElement()></button>
     </ion-nav-buttons>
     <ion-content class=padding>
         <h1>Action buttons example from www folder</h1>
         <p>You can see action buttons only for this page.</p>
-        <input type="text" placeholder="What do you need to do?" ng-model=vm.task>
-        {{task.title}}
+        <!--<input type="text" placeholder="What do you need to do?" ng-model=vm.task>-->
+
+        <ion-list>
+            <ion-item ng-repeat="userStock in vm.userStocks">
+                {{userStock}}
+            </ion-item>
+        </ion-list>
     </ion-content>
 </ion-view>

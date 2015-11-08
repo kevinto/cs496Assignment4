@@ -78,46 +78,38 @@ var Actions;
             this.$state = $state;
             this.$http = $http;
             this.$scope = $scope;
+            this.userStocks = [];
             // TODO: we need the stock array back to populate the "tasks" here: http://ionicframework.com/docs/guide/building.html
-            // Can i pass "this"??
 
             // this works. for doing a page reload
             $scope.$on('$ionicView.enter', function () {
                 if (isRipple()) {
                     var user = { userId: "TestUser1" };
-                    getUserFromWebService(user, $http);
+                    // remember to use this below too
+                    //getUserFromWebService(user, $http, this.userStocks);
+                    getUserFromWebService(user, $scope.vm);
                 }
                 // Get user info first I need to read user info
 
-                readFromFile(getUserFromWebService, $http);
+                readFromFile(getUserFromWebService, $scope.vm);
                 console.log("init function()");
-            });
-            this.userId = '';
-            this.email = '';
-            this.firstName = '';
-            this.lastName = '';
+            });            
+            
+            this.text1 = '';
         }
 
-        ActionsController.$inject = ["$state", "$http", "$scope"];
-        ActionsController.prototype.navigateToStockViewTab = function () {
+        ActionsController.prototype.addElement = function () {
             var _this = this;
-
-            //_this.$state.go('tabs.actions', {}, {location: false, reload: true});
-
-            // Add code here to make a GET all to populate the next page
-            // Need to figure out a way to put data into view stocks
-            //_this.$http.get('https://intense-ocean-3569.herokuapp.com/users/')
-            //.success(function (data) {
-            //    console.log(data);
-            //})
-            //.error(function () {
-            //    alert("Not working");
-            //});
-
+            _this.userStocks = [];
+            _this.userStocks.push("hello");
+            _this.userStocks.push("hello2");
+            //_this.text1 += "hello ";
             return;
         };
 
+        // This method is for testing only.
         // Add method here to test the read portion
+        ActionsController.$inject = ["$state", "$http", "$scope"];
         ActionsController.prototype.readUserInfo = function () {
             var _this = this;
 
@@ -271,30 +263,6 @@ var Core;
     'use strict';
 })(Core || (Core = {}));
 
-var Core;
-(function (Core) {
-    'using strict';
-    var LoadingService = (function () {
-        function LoadingService($ionicLoading) {
-            this.$ionicLoading = $ionicLoading;
-        }
-        LoadingService.$inject = ["$ionicLoading"];
-        LoadingService.prototype.show = function () {
-            var options = {
-                templateUrl: Constants.Paths.Modules + 'tabs/templates/loading.html'
-            };
-            this.$ionicLoading.show(options);
-        };
-        LoadingService.prototype.hide = function () {
-            this.$ionicLoading.hide();
-        };
-        return LoadingService;
-    })();
-    Core.LoadingService = LoadingService;
-    angular.module(Constants.Paths.Core)
-        .service('loadingService', LoadingService);
-})(Core || (Core = {}));
-
 var Tabs;
 (function (Tabs) {
     'use strict';
@@ -377,7 +345,7 @@ function writeToFile(data, state) {
     }, errorHandler.bind(null, fileName));
 }
 
-function readFromFile(callBackFunction, httpService) {
+function readFromFile(callBackFunction, scope) {
     if (isRipple()) {
         console.log("Running from Ripple. Cannot read from system file.");
         return;
@@ -390,7 +358,7 @@ function readFromFile(callBackFunction, httpService) {
             var reader = new FileReader();
 
             reader.onloadend = function (e) {
-                callBackFunction(JSON.parse(this.result), httpService);
+                callBackFunction(JSON.parse(this.result), scope);
                 return JSON.parse(this.result);
             };
 
@@ -399,15 +367,15 @@ function readFromFile(callBackFunction, httpService) {
     }, errorHandler);
 }
 
-function getUserFromWebService(user, httpService) {
+function getUserFromWebService(user, scope) {
 
     console.log(user.userId);
     var url = 'https://intense-ocean-3569.herokuapp.com/users/userid/' + user.userId;
-    httpService.get(url)
+    scope.$http.get(url)
     .success(function (data) {
         console.log(data);
         // tODO : add parsing.
-        // how do i populate the actions page?
+        // how do i populate the actions page? populate the page after getting this data
     })
     .error(function () {
         console.log("No user found");
