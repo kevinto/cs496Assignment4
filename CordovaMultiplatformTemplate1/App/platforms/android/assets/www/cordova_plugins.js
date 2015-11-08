@@ -166,6 +166,11 @@ module.exports = [
         "clobbers": [
             "window.FileTransfer"
         ]
+    },
+    {
+        "file": "plugins/cordova-plugin-whitelist/whitelist.js",
+        "id": "cordova-plugin-whitelist.whitelist",
+        "runs": true
     }
 ];
 module.exports.metadata = 
@@ -173,7 +178,8 @@ module.exports.metadata =
 {
     "cordova-plugin-device": "1.0.1",
     "cordova-plugin-file": "3.0.0",
-    "cordova-plugin-file-transfer": "1.3.0"
+    "cordova-plugin-file-transfer": "1.3.0",
+    "cordova-plugin-whitelist": "1.0.0"
 }
 // BOTTOM OF METADATA
 });

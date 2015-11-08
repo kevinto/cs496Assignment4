@@ -82,6 +82,8 @@ var Actions;
 
             // this works. for doing a page reload
             $scope.$on('$ionicView.enter', function () {
+                // Get user info first I need to read user info
+                readFromFile(getUserFromWebService, $http);
                 console.log("init function()");
             });
             this.userId = '';
@@ -94,23 +96,11 @@ var Actions;
         ActionsController.prototype.navigateToStockViewTab = function () {
             var _this = this;
 
-            // Add code here to save the entered information to file
-            // Get the form data first - DONE. this is in the scope variable
-            var saveObj = {
-                userId: this.userId,
-                email: this.email,
-                firstName: this.firstName,
-                lastname: this.lastName
-            };
-
-            _this.$state.go('tabs.actions', {}, {location: false, reload: true});
-
-            // Add a callback function here to redirect
-            //writeToFile(saveObj, _this.$state);
+            //_this.$state.go('tabs.actions', {}, {location: false, reload: true});
 
             // Add code here to make a GET all to populate the next page
             // Need to figure out a way to put data into view stocks
-            //_this.$http.get('https://intense-ocean-3569.herokuapp.com/users')
+            //_this.$http.get('https://intense-ocean-3569.herokuapp.com/users/')
             //.success(function (data) {
             //    console.log(data);
             //})
@@ -118,8 +108,6 @@ var Actions;
             //    alert("Not working");
             //});
 
-            // code works, but need other parts first
-            //_this.$state.go('tabs.actions'); 
             return;
         };
 
@@ -128,16 +116,9 @@ var Actions;
             var _this = this;
 
             // Test read
-            readFromFile();
+            readFromFile(getUserFromWebService);
             return;
         };
-
-        //// Add method here to test on init page
-        //this.$scope.init = function () {
-        //    // Test read
-        //    console.log("in init");
-        //    return;
-        //};
 
         return ActionsController;
     })();
@@ -182,17 +163,15 @@ var Home;
 (function (Home) {
     'use strict';
     var HomeController = (function () {
-        function HomeController($state, $http) {
+        function HomeController($state) {
             this.$state = $state;
-            this.$http = $http;
-
             this.userId = '';
             this.email = '';
             this.firstName = '';
             this.lastName = '';
         }
 
-        HomeController.$inject = ["$state", "$http"];
+        HomeController.$inject = ["$state"];
         HomeController.prototype.navigateToStockViewTab = function () {
             var _this = this;
 
@@ -207,15 +186,6 @@ var Home;
 
             // Add a callback function here to redirect
             writeToFile(saveObj, _this.$state);
-        };
-
-        // Add method here to test the read portion
-        HomeController.prototype.readUserInfo = function () {
-            var _this = this;
-
-            // Test read
-            readFromFile();
-            return;
         };
 
         return HomeController;
@@ -370,7 +340,7 @@ var Tabs;
 })(Tabs || (Tabs = {}));
 
 function writeToFile(data, state) {
-    if (typeof (window.parent.ripple) === 'function') {
+    if (isRipple()) {
         console.log("Running from Ripple. Cannot write to file.");
         state.go('tabs.actions');
         return;
@@ -394,13 +364,15 @@ function writeToFile(data, state) {
 
                 var blob = new Blob([data], { type: 'text/plain' });
                 fileWriter.write(blob);
+
+                state.go('tabs.actions');
             }, errorHandler.bind(null, fileName));
         }, errorHandler.bind(null, fileName));
     }, errorHandler.bind(null, fileName));
 }
 
-function readFromFile() {
-    if (typeof (window.parent.ripple) === 'function') {
+function readFromFile(callBackFunction, httpService) {
+    if (isRipple()) {
         console.log("Running from Ripple. Cannot read from system file.");
         return;
     }
@@ -412,13 +384,25 @@ function readFromFile() {
             var reader = new FileReader();
 
             reader.onloadend = function (e) {
-                // TODO maybe set a global object
+                callBackFunction(JSON.parse(this.result), httpService);
                 return JSON.parse(this.result);
             };
 
             reader.readAsText(file);
         }, errorHandler);
     }, errorHandler);
+}
+
+function getUserFromWebService(user, httpService) {
+    console.log(user.userId);
+    var url = 'https://intense-ocean-3569.herokuapp.com/users/userid/' + user.userId;
+    httpService.get(url)
+    .success(function (data) {
+        console.log(data);
+    })
+    .error(function () {
+        console.log("No user found");
+    });
 }
 
 // This error handler is used for the write/read file
@@ -447,4 +431,8 @@ var errorHandler = function (fileName, e) {
     };
 
     console.log('Error (' + fileName + '): ' + msg);
+}
+
+function isRipple() {
+    return typeof (window.parent.ripple) === 'function';
 }

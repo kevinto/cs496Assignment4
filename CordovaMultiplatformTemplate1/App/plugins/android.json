@@ -19,6 +19,10 @@
                         {
                             "xml": "<feature name=\"FileTransfer\"><param name=\"android-package\" value=\"org.apache.cordova.filetransfer.FileTransfer\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Whitelist\"><param name=\"android-package\" value=\"org.apache.cordova.whitelist.WhitelistPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -53,6 +57,9 @@
             "PACKAGE_NAME": "io.cordova.myapp37fa9479f98a49f4a53ab78472334b16"
         },
         "cordova-plugin-file-transfer": {
+            "PACKAGE_NAME": "io.cordova.myapp37fa9479f98a49f4a53ab78472334b16"
+        },
+        "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "io.cordova.myapp37fa9479f98a49f4a53ab78472334b16"
         }
     },
