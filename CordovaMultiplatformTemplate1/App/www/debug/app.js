@@ -78,11 +78,17 @@ var Actions;
             this.$state = $state;
             this.$http = $http;
             this.$scope = $scope;
-            // Add method here to test on init page
+            // TODO: we need the stock array back to populate the "tasks" here: http://ionicframework.com/docs/guide/building.html
+            // Can i pass "this"??
 
             // this works. for doing a page reload
             $scope.$on('$ionicView.enter', function () {
+                if (isRipple()) {
+                    var user = { userId: "TestUser1" };
+                    getUserFromWebService(user, $http);
+                }
                 // Get user info first I need to read user info
+
                 readFromFile(getUserFromWebService, $http);
                 console.log("init function()");
             });
@@ -394,12 +400,14 @@ function readFromFile(callBackFunction, httpService) {
 }
 
 function getUserFromWebService(user, httpService) {
+
     console.log(user.userId);
     var url = 'https://intense-ocean-3569.herokuapp.com/users/userid/' + user.userId;
     httpService.get(url)
     .success(function (data) {
         console.log(data);
         // tODO : add parsing.
+        // how do i populate the actions page?
     })
     .error(function () {
         console.log("No user found");

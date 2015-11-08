@@ -6,6 +6,7 @@
     <ion-content class=padding>
         <h1>Action buttons example from www folder</h1>
         <p>You can see action buttons only for this page.</p>
-        <article ng-bind-html=vm.text></article>
+        <input type="text" placeholder="What do you need to do?" ng-model=vm.task>
+        {{task.title}}
     </ion-content>
 </ion-view>

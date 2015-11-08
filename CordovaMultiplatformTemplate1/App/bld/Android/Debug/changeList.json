@@ -369,7 +369,8 @@
     "plugins\\cordova-plugin-whitelist\\NOTICE",
     "plugins\\cordova-plugin-whitelist\\plugin.xml",
     "plugins\\cordova-plugin-whitelist\\src\\ios\\CDVNavigationWhitelistPlugin.m",
-    "plugins\\cordova-plugin-whitelist\\src\\ios\\CDVNavigationWhitelistPlugin.h"
+    "plugins\\cordova-plugin-whitelist\\src\\ios\\CDVNavigationWhitelistPlugin.h",
+    "www\\debug\\app.js~RF8b94576.TMP"
   ],
   "deletedFilesIos": [],
   "addedPluginsIos": [
@@ -380,7 +381,9 @@
   ],
   "deletedPluginsIos": [],
   "changedFiles": [
-    "www\\debug\\app.js"
+    "www\\debug\\app.js",
+    "www\\debug\\app.js~RF8b94576.TMP",
+    "merges\\android\\modules\\home\\views\\home.html"
   ],
   "deletedFiles": [],
   "addedPlugins": [],
