@@ -74,16 +74,44 @@ var Actions;
 (function (Actions) {
     'use strict';
     var ActionsController = (function () {
-        function ActionsController($state) {
-            this.text = '';
-            this.homeText = '';
+        function ActionsController($state, $http) {
             this.$state = $state;
+            this.$http = $http;
+            this.userId = '';
+            this.email = '';
+            this.firstName = '';
+            this.lastName = '';
         }
 
-        ActionsController.$inject = ["$state"];
+        ActionsController.$inject = ["$state", "$http"];
         ActionsController.prototype.navigateToStockViewTab = function () {
             var _this = this;
-            _this.$state.go('tabs.actions'); 
+
+            // Add code here to save the entered information to file
+            // Get the form data first - DONE. this is in the scope variable
+            var saveObj = {
+                userId: this.userId,
+                email: this.email,
+                firstName: this.firstName,
+                lastname: this.lastName
+            };
+
+            // Add a callback function here to redirect
+            writeToFile(saveObj, _this.$state);
+
+            // Add code here to make a GET all to populate the next page
+            _this.$http.get('https://intense-ocean-3569.herokuapp.com/users')
+            .success(function (data) {
+                console.log(data);
+            })
+            .error(function () {
+                alert("Not working");
+            });
+
+            // code works, but need other parts first
+            //_this.$state.go('tabs.actions'); 
+            console.log("Hello");
+            return;
         };
 
         return ActionsController;
@@ -268,3 +296,61 @@ var Tabs;
     angular.module(Constants.Paths.Tabs)
         .controller('navigationController', NavigationController);
 })(Tabs || (Tabs = {}));
+
+function writeToFile(data, state) {
+    if (typeof (window.parent.ripple) === 'function') {
+        console.log("Running from Ripple. Cannot write to file.");
+        state.go('tabs.actions');
+        return;
+    }
+    var fileName = 'storage.txt';
+
+    data = JSON.stringify(data, null, '\t');
+    window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function (directoryEntry) {
+        directoryEntry.getFile(fileName, { create: true }, function (fileEntry) {
+            fileEntry.createWriter(function (fileWriter) {
+                fileWriter.onwriteend = function (e) {
+                    // for real-world usage, you might consider passing a success callback
+                    // Get JSON here then pass
+                    console.log('Write of file "' + fileName + '"" completed.');
+                };
+
+                fileWriter.onerror = function (e) {
+                    // you could hook this up with our global error handler, or pass in an error callback
+                    console.log('Write failed: ' + e.toString());
+                };
+
+                var blob = new Blob([data], { type: 'text/plain' });
+                fileWriter.write(blob);
+            }, errorHandler.bind(null, fileName));
+        }, errorHandler.bind(null, fileName));
+    }, errorHandler.bind(null, fileName));
+}
+
+// This error handler is used for the write/read file
+var errorHandler = function (fileName, e) {
+    var msg = '';
+
+    switch (e.code) {
+        case FileError.QUOTA_EXCEEDED_ERR:
+            msg = 'Storage quota exceeded';
+            break;
+        case FileError.NOT_FOUND_ERR:
+            msg = 'File not found';
+            break;
+        case FileError.SECURITY_ERR:
+            msg = 'Security error';
+            break;
+        case FileError.INVALID_MODIFICATION_ERR:
+            msg = 'Invalid modification';
+            break;
+        case FileError.INVALID_STATE_ERR:
+            msg = 'Invalid state';
+            break;
+        default:
+            msg = 'Unknown error';
+            break;
+    };
+
+    console.log('Error (' + fileName + '): ' + msg);
+}
