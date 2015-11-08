@@ -74,16 +74,23 @@ var Actions;
 (function (Actions) {
     'use strict';
     var ActionsController = (function () {
-        function ActionsController($state, $http) {
+        function ActionsController($state, $http, $scope) {
             this.$state = $state;
             this.$http = $http;
+            this.$scope = $scope;
+            // Add method here to test on init page
+
+            // this works. for doing a page reload
+            $scope.$on('$ionicView.enter', function () {
+                console.log("init function()");
+            });
             this.userId = '';
             this.email = '';
             this.firstName = '';
             this.lastName = '';
         }
 
-        ActionsController.$inject = ["$state", "$http"];
+        ActionsController.$inject = ["$state", "$http", "$scope"];
         ActionsController.prototype.navigateToStockViewTab = function () {
             var _this = this;
 
@@ -96,23 +103,41 @@ var Actions;
                 lastname: this.lastName
             };
 
+            _this.$state.go('tabs.actions', {}, {location: false, reload: true});
+
             // Add a callback function here to redirect
-            writeToFile(saveObj, _this.$state);
+            //writeToFile(saveObj, _this.$state);
 
             // Add code here to make a GET all to populate the next page
-            _this.$http.get('https://intense-ocean-3569.herokuapp.com/users')
-            .success(function (data) {
-                console.log(data);
-            })
-            .error(function () {
-                alert("Not working");
-            });
+            // Need to figure out a way to put data into view stocks
+            //_this.$http.get('https://intense-ocean-3569.herokuapp.com/users')
+            //.success(function (data) {
+            //    console.log(data);
+            //})
+            //.error(function () {
+            //    alert("Not working");
+            //});
 
             // code works, but need other parts first
             //_this.$state.go('tabs.actions'); 
-            console.log("Hello");
             return;
         };
+
+        // Add method here to test the read portion
+        ActionsController.prototype.readUserInfo = function () {
+            var _this = this;
+
+            // Test read
+            readFromFile();
+            return;
+        };
+
+        //// Add method here to test on init page
+        //this.$scope.init = function () {
+        //    // Test read
+        //    console.log("in init");
+        //    return;
+        //};
 
         return ActionsController;
     })();
@@ -120,6 +145,85 @@ var Actions;
     angular.module(Constants.Paths.Actions.Base)
         .controller('actionsController', ActionsController);
 })(Actions || (Actions = {}));
+
+var Home;
+(function (Home) {
+    'use strict';
+    var Paths = Constants.Paths;
+    var Page = Paths.Home;
+    angular.module(Page.Base, [])
+        .config(statesConfiguration);
+    function statesConfiguration($stateProvider) {
+        $stateProvider
+            .state(Paths.Tabs + '.' + Page.Base, {
+                url: '/' + Page.Base,
+                views: {
+                    'home-tab': {
+                        controller: 'homeController as vm',
+                        templateUrl: Paths.Modules + 'home/views/home.html'
+                    }
+                }
+            })
+            .state(Paths.Tabs + '.' + Page.Edit, {
+                url: '/' + Page.Edit,
+                views: {
+                    'actions-tab': {
+                        //templateUrl: Paths.Modules + 'home/views/editStocks.html'
+                        controller: 'actionsController as vm',
+                        templateUrl: Paths.Modules + 'actions/views/actions.html'
+                    }
+                }
+            });
+    }
+    statesConfiguration.$inject = ["$stateProvider"];
+})(Home || (Home = {}));
+
+var Home;
+(function (Home) {
+    'use strict';
+    var HomeController = (function () {
+        function HomeController($state, $http) {
+            this.$state = $state;
+            this.$http = $http;
+
+            this.userId = '';
+            this.email = '';
+            this.firstName = '';
+            this.lastName = '';
+        }
+
+        HomeController.$inject = ["$state", "$http"];
+        HomeController.prototype.navigateToStockViewTab = function () {
+            var _this = this;
+
+            // Add code here to save the entered information to file
+            // Get the form data first - DONE. this is in the scope variable
+            var saveObj = {
+                userId: this.userId,
+                email: this.email,
+                firstName: this.firstName,
+                lastname: this.lastName
+            };      
+
+            // Add a callback function here to redirect
+            writeToFile(saveObj, _this.$state);
+        };
+
+        // Add method here to test the read portion
+        HomeController.prototype.readUserInfo = function () {
+            var _this = this;
+
+            // Test read
+            readFromFile();
+            return;
+        };
+
+        return HomeController;
+    })();
+    Home.HomeController = HomeController;
+    angular.module(Constants.Paths.Actions.Base)
+        .controller('homeController', HomeController);
+})(Home || (Home = {}));
 
 var Buttons;
 (function (Buttons) {
@@ -147,38 +251,6 @@ var Core;
     'use strict';
     angular.module(Constants.Paths.Core, []);
 })(Core || (Core = {}));
-
-var Home;
-(function (Home) {
-    'use strict';
-    var Paths = Constants.Paths;
-    var Page = Paths.Home;
-    angular.module(Page.Base, [])
-        .config(statesConfiguration);
-    function statesConfiguration($stateProvider) {
-        $stateProvider
-            .state(Paths.Tabs + '.' + Page.Base, {
-            url: '/' + Page.Base,
-            views: {
-                'home-tab': {
-                    controller: 'actionsController as vm',
-                    templateUrl: Paths.Modules + 'home/views/home.html'
-                }
-            }
-        })
-            .state(Paths.Tabs + '.' + Page.Edit, {
-                url: '/' + Page.Edit,
-                views: {
-                    'actions-tab': {
-                        //templateUrl: Paths.Modules + 'home/views/editStocks.html'
-                        controller: 'actionsController as vm',
-                        templateUrl: Paths.Modules + 'actions/views/actions.html'
-                    }
-                }
-        });
-    }
-    statesConfiguration.$inject = ["$stateProvider"];
-})(Home || (Home = {}));
 
 var Side;
 (function (Side) {
@@ -325,6 +397,28 @@ function writeToFile(data, state) {
             }, errorHandler.bind(null, fileName));
         }, errorHandler.bind(null, fileName));
     }, errorHandler.bind(null, fileName));
+}
+
+function readFromFile() {
+    if (typeof (window.parent.ripple) === 'function') {
+        console.log("Running from Ripple. Cannot read from system file.");
+        return;
+    }
+
+    var fileName = 'storage.txt';
+    var pathToFile = cordova.file.dataDirectory + fileName;
+    window.resolveLocalFileSystemURL(pathToFile, function (fileEntry) {
+        fileEntry.file(function (file) {
+            var reader = new FileReader();
+
+            reader.onloadend = function (e) {
+                // TODO maybe set a global object
+                return JSON.parse(this.result);
+            };
+
+            reader.readAsText(file);
+        }, errorHandler);
+    }, errorHandler);
 }
 
 // This error handler is used for the write/read file
