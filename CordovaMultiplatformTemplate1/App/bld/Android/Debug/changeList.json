@@ -352,9 +352,7 @@
     "cordova-plugin-whitelist@1.0.0"
   ],
   "deletedPluginsIos": [],
-  "changedFiles": [
-    "merges\\android\\modules\\home\\views\\home.html"
-  ],
+  "changedFiles": [],
   "deletedFiles": [],
   "addedPlugins": [],
   "deletedPlugins": []

@@ -242,7 +242,7 @@ var Buttons;
             this.text1 = '';
         }
 
-        ButtonsController.prototype.testme = function () {
+        ButtonsController.prototype.saveChanges = function () {
             var _this = this;
 
             // Set up dummy data for ripple emulator only
@@ -250,27 +250,11 @@ var Buttons;
                 _this.email = 'TEST1@TEST.com';
                 _this.firstName = 'Test';
                 _this.lastName = 'T';
+
+                // call post directly
             }
+            readFromFile(postUserFromWebService, _this);
 
-            var stockAlerts = [];
-            _this.userStocks.forEach(function (element) {
-                stockAlerts.push({ stockTickerSymbol: element.stockTickerSymbol, amountOwned: element.amountOwned, buyPrice: element.buyPrice, sellPrice: element.sellPrice });
-            });
-
-            var dataToSend = JSON.stringify({ userId: _this.userId, email: _this.email, firstName: _this.firstName, lastName: _this.lastName, stockAlerts: stockAlerts });
-            // Do a post call here with all the new information
-            var url = 'https://intense-ocean-3569.herokuapp.com/user/';
-
-            _this.$http({
-                url: url,
-                method: "POST",
-                data: dataToSend,
-                headers: { 'Content-Type': 'application/json' }
-            }).success(function (data) {
-                console.log("success");
-            }).error(function (data) {
-                console.log("failed");
-            });
             return;
         };
 
@@ -451,6 +435,29 @@ function getUserFromWebService(user, scope) {
     })
     .error(function () {
         console.log("No user found");
+    });
+}
+
+function postUserFromWebService(user, scope) {
+
+    var stockAlerts = [];
+    scope.userStocks.forEach(function (element) {
+        stockAlerts.push({ stockTickerSymbol: element.stockTickerSymbol, amountOwned: element.amountOwned, buyPrice: element.buyPrice, sellPrice: element.sellPrice });
+    });
+
+    var dataToSend = JSON.stringify({ userId: user.userId, email: user.email, firstName: user.firstName, lastName: user.lastName, stockAlerts: stockAlerts });
+    // Do a post call here with all the new information
+    var url = 'https://intense-ocean-3569.herokuapp.com/user/';
+
+    scope.$http({
+        url: url,
+        method: "POST",
+        data: dataToSend,
+        headers: { 'Content-Type': 'application/json' }
+    }).success(function (data) {
+        console.log("success");
+    }).error(function (data) {
+        console.log("failed");
     });
 }
 
