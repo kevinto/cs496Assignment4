@@ -351,7 +351,9 @@
   ],
   "deletedPluginsIos": [],
   "changedFiles": [
-    "www\\modules\\actions\\views\\actions.html"
+    "www\\debug\\app.js",
+    "www\\modules\\actions\\views\\actions.html",
+    "merges\\android\\modules\\home\\views\\home.html"
   ],
   "deletedFiles": [],
   "addedPlugins": [],

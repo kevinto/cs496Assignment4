@@ -377,7 +377,7 @@ function getUserFromWebService(user, scope) {
         console.log("Successfully got user data");
         if (data.length >= 1 && data[0].stockAlerts.length > 0) {
             scope.userId = data[0].userId;
-            scope.userStocks = [];            
+            scope.userStocks = [];
             data[0].stockAlerts.forEach(function (element) {
                 scope.userStocks.push(element);
             });
