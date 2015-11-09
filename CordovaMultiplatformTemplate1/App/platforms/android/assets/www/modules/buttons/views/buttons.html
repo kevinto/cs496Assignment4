@@ -3,12 +3,24 @@
         <h1>Edit Stocks for User: {{vm.userId}}</h1>
         <ion-list>
             <ion-item class="item-text-wrap" ng-repeat="userStock in vm.userStocks">
-                Ticker: {{userStock.stockTickerSymbol}} <br />
-                Amount Owned: {{userStock.amountOwned}} <br />
-                Buy Price: {{userStock.buyPrice}} <br />
-                Sell Price: {{userStock.sellPrice}} <br />
+                <label class="item item-input">
+                    <span class="input-label">Ticker Symbol</span>
+                    <input type="text" placeholder={{userStock.stockTickerSymbol}} ng-model=userStock.stockTickerSymbol>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Amount Owned</span>
+                    <input type="number" placeholder={{userStock.amountOwned}} ng-model=userStock.amountOwned>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Buy Price</span>
+                    <input type="number" placeholder={{userStock.buyPrice}} ng-model=userStock.buyPrice>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Sell Price</span>
+                    <input type="number" placeholder={{userStock.sellPrice}} ng-model=userStock.sellPrice>
+                </label>
             </ion-item>
         </ion-list>
-        <button class="button button-block button-light">button-light</button> 
+        <button class="button button-block button-light" ng-click=vm.testme()>Save Changes</button> 
     </ion-content>
 </ion-view>

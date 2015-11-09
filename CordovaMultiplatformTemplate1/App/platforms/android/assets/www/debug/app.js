@@ -208,6 +208,9 @@ var Buttons;
             this.$scope = $scope;
             this.userStocks = [];
             this.userId = '(not selected)';
+            this.email = '';
+            this.firstName = '';
+            this.lastName = '';
 
             // Execute on every page reload
             $scope.$on('$ionicView.enter', function () {
@@ -221,6 +224,38 @@ var Buttons;
 
             this.text1 = '';
         }
+
+        ButtonsController.prototype.testme = function () {
+            var _this = this;
+
+            // Set up dummy data for ripple emulator only
+            if (isRipple()) {
+                _this.email = 'TEST1@TEST.com';
+                _this.firstName = 'Test';
+                _this.lastName = 'T';
+            }
+
+            var stockAlerts = [];
+            _this.userStocks.forEach(function (element) {
+                stockAlerts.push({ stockTickerSymbol: element.stockTickerSymbol, amountOwned: element.amountOwned, buyPrice: element.buyPrice, sellPrice: element.sellPrice });
+            });
+
+            var dataToSend = JSON.stringify({ userId: _this.userId, email: _this.email, firstName: _this.firstName, lastName: _this.lastName, stockAlerts: stockAlerts });
+            // Do a post call here with all the new information
+            var url = 'https://intense-ocean-3569.herokuapp.com/user/';
+
+            _this.$http({
+                url: url,
+                method: "POST",
+                data: dataToSend,
+                headers: { 'Content-Type': 'application/json' }
+            }).success(function (data) {
+                console.log("success");
+            }).error(function (data) {
+                console.log("failed");
+            });
+            return;
+        };
 
         return ButtonsController;
     })();

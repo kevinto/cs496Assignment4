@@ -340,7 +340,8 @@
     "res\\icons\\windows\\Square44x44Logo.scale-240.png",
     "res\\screens\\android\\screen-mdpi-portrait.png",
     "tsd.json",
-    "www\\modules\\tabs\\templates\\tabs.html"
+    "www\\modules\\tabs\\templates\\tabs.html",
+    "www\\debug\\app.js~RFc43c9c4.TMP"
   ],
   "deletedFilesIos": [],
   "addedPluginsIos": [
@@ -351,7 +352,8 @@
   ],
   "deletedPluginsIos": [],
   "changedFiles": [
-    "www\\debug\\app.js"
+    "www\\debug\\app.js",
+    "merges\\android\\modules\\home\\views\\home.html"
   ],
   "deletedFiles": [],
   "addedPlugins": [],
