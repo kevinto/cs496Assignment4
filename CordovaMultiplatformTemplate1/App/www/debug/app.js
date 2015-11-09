@@ -168,7 +168,7 @@ var Home;
                 userId: this.userId,
                 email: this.email,
                 firstName: this.firstName,
-                lastname: this.lastName
+                lastName: this.lastName
             };      
 
             // Add a callback function here to redirect
