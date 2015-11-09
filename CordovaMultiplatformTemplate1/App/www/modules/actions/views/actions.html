@@ -4,13 +4,14 @@
         <button class="button button-clear button-calm icon icon-only ion-ionic" ng-click=vm.addElement()></button>
     </ion-nav-buttons>
     <ion-content class=padding>
-        <h1>Action buttons example from www folder</h1>
-        <p>You can see action buttons only for this page.</p>
+        <h1>Stocks Owned by User: {{vm.userId}}</h1>        
         <!--<input type="text" placeholder="What do you need to do?" ng-model=vm.task>-->
-
         <ion-list>
-            <ion-item ng-repeat="userStock in vm.userStocks">
-                {{userStock}}
+            <ion-item class="item-text-wrap" ng-repeat="userStock in vm.userStocks">
+                Ticker: {{userStock.stockTickerSymbol}} <br />
+                Amount Owned: {{userStock.amountOwned}} <br />
+                Buy Price: {{userStock.buyPrice}} <br />
+                Sell Price: {{userStock.sellPrice}} <br />
             </ion-item>
         </ion-list>
     </ion-content>

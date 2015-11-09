@@ -79,6 +79,7 @@ var Actions;
             this.$http = $http;
             this.$scope = $scope;
             this.userStocks = [];
+            this.userId = '(not selected)';
             // TODO: we need the stock array back to populate the "tasks" here: http://ionicframework.com/docs/guide/building.html
 
             // this works. for doing a page reload
@@ -98,25 +99,25 @@ var Actions;
             this.text1 = '';
         }
 
-        ActionsController.prototype.addElement = function () {
-            var _this = this;
-            _this.userStocks = [];
-            _this.userStocks.push("hello");
-            _this.userStocks.push("hello2");
-            //_this.text1 += "hello ";
-            return;
-        };
+        //ActionsController.prototype.addElement = function () {
+        //    var _this = this;
+        //    _this.userStocks = [];
+        //    _this.userStocks.push("hello");
+        //    _this.userStocks.push("hello2");
+        //    //_this.text1 += "hello ";
+        //    return;
+        //};
 
-        // This method is for testing only.
-        // Add method here to test the read portion
-        ActionsController.$inject = ["$state", "$http", "$scope"];
-        ActionsController.prototype.readUserInfo = function () {
-            var _this = this;
+        //// This method is for testing only.
+        //// Add method here to test the read portion
+        //ActionsController.$inject = ["$state", "$http", "$scope"];
+        //ActionsController.prototype.readUserInfo = function () {
+        //    var _this = this;
 
-            // Test read
-            readFromFile(getUserFromWebService);
-            return;
-        };
+        //    // Test read
+        //    readFromFile(getUserFromWebService);
+        //    return;
+        //};
 
         return ActionsController;
     })();
@@ -373,9 +374,14 @@ function getUserFromWebService(user, scope) {
     var url = 'https://intense-ocean-3569.herokuapp.com/users/userid/' + user.userId;
     scope.$http.get(url)
     .success(function (data) {
-        console.log(data);
-        // tODO : add parsing.
-        // how do i populate the actions page? populate the page after getting this data
+        console.log("Successfully got user data");
+        if (data.length >= 1 && data[0].stockAlerts.length > 0) {
+            scope.userId = data[0].userId;
+            scope.userStocks = [];
+            data[0].stockAlerts.forEach(function (element) {
+                scope.userStocks.push(element);
+            });
+        }
     })
     .error(function () {
         console.log("No user found");
