@@ -150,14 +150,20 @@ var Home;
             this.email = '';
             this.firstName = '';
             this.lastName = '';
+            this.emailWarning = '';
+            this.requiredWarning = '';
         }
 
         HomeController.$inject = ["$state"];
         HomeController.prototype.navigateToStockViewTab = function () {
             var _this = this;
 
-            // Add code here to save the entered information to file
-            // Get the form data first - DONE. this is in the scope variable
+            _this.requiredWarning = '';
+            if (_this.userId == '' || typeof (_this.email) == "undefined" || _this.email == '' || _this.firstName == '' || _this.lastName == '') {
+                _this.requiredWarning = 'All fields are required to change user';
+                return;
+            }
+
             var saveObj = {
                 userId: this.userId,
                 email: this.email,
@@ -167,6 +173,17 @@ var Home;
 
             // Add a callback function here to redirect
             writeToFile(saveObj, _this.$state);
+        };
+
+        HomeController.prototype.validateEmail = function () {
+            var _this = this;
+            if (typeof(_this.email) == "undefined") {
+                _this.emailWarning = "*Email Invalid";
+            }
+            else
+            {
+                _this.emailWarning = "";
+            }
         };
 
         return HomeController;

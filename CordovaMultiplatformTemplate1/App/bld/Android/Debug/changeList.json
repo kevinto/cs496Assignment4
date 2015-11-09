@@ -341,7 +341,8 @@
     "res\\screens\\android\\screen-mdpi-portrait.png",
     "tsd.json",
     "www\\modules\\tabs\\templates\\tabs.html",
-    "www\\debug\\app.js~RFc43c9c4.TMP"
+    "www\\debug\\app.js~RFc43c9c4.TMP",
+    "merges\\android\\modules\\home\\views\\home.html~RFcca539e.TMP"
   ],
   "deletedFilesIos": [],
   "addedPluginsIos": [
@@ -352,7 +353,6 @@
   ],
   "deletedPluginsIos": [],
   "changedFiles": [
-    "www\\debug\\app.js",
     "merges\\android\\modules\\home\\views\\home.html"
   ],
   "deletedFiles": [],

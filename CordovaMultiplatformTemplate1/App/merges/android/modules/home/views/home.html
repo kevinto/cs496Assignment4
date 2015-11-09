@@ -8,8 +8,9 @@
             </label>
             <label class="item item-input">
                 <span class="input-label">Email</span>
-                <input type="email" required placeholder="Email" ng-model=vm.email>
+                <input type="email" placeholder="Email" ng-model=vm.email ng-blur=vm.validateEmail()>
             </label>
+            <span style="color:red" ng-bind-html=vm.emailWarning></span>
             <label class="item item-input">
                 <span class="input-label">First Name</span>
                 <input type="text" placeholder="First Name" ng-model=vm.firstName>
@@ -20,9 +21,7 @@
             </label>            
         </div>
         <div class="padding">
-            <!--<a class="button button-block button-positive icon icon-right ion-chevron-right" ui-sref="tabs.editStocks">
-                Edit Stocks
-            </a>-->
+            <span style="color:red" ng-bind-html=vm.requiredWarning></span>
             <a class="button button-block button-positive icon icon-right ion-chevron-right" ng-click=vm.navigateToStockViewTab()>
                 View Stocks
             </a>
