@@ -94,9 +94,12 @@ var Actions;
                 readFromFile(getUserFromWebService, $scope.vm);
                 console.log("init function()");
             });            
-            
-            this.text1 = '';
         }
+
+        ActionsController.$inject = ["$state", "$http", "$scope"];
+        ActionsController.prototype.navigateToStockEditTab = function () {
+            this.$state.go('tabs.buttons');
+        };
 
         return ActionsController;
     })();
