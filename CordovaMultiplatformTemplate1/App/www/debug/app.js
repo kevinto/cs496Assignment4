@@ -79,8 +79,7 @@ var Actions;
             this.$http = $http;
             this.$scope = $scope;
             this.userStocks = [];
-            this.userId = '(not selected)';
-            // TODO: we need the stock array back to populate the "tasks" here: http://ionicframework.com/docs/guide/building.html
+            this.userId = '(not selected)';          
 
             // this works. for doing a page reload
             $scope.$on('$ionicView.enter', function () {
@@ -98,26 +97,6 @@ var Actions;
             
             this.text1 = '';
         }
-
-        //ActionsController.prototype.addElement = function () {
-        //    var _this = this;
-        //    _this.userStocks = [];
-        //    _this.userStocks.push("hello");
-        //    _this.userStocks.push("hello2");
-        //    //_this.text1 += "hello ";
-        //    return;
-        //};
-
-        //// This method is for testing only.
-        //// Add method here to test the read portion
-        //ActionsController.$inject = ["$state", "$http", "$scope"];
-        //ActionsController.prototype.readUserInfo = function () {
-        //    var _this = this;
-
-        //    // Test read
-        //    readFromFile(getUserFromWebService);
-        //    return;
-        //};
 
         return ActionsController;
     })();
@@ -207,12 +186,44 @@ var Buttons;
             url: '/' + Page.Base,
             views: {
                 'buttons-tab': {
+                    controller: 'buttonsController as vm',
                     templateUrl: Paths.Modules + 'buttons/views/buttons.html'
                 }
             }
         });
     }
     statesConfiguration.$inject = ["$stateProvider"];
+})(Buttons || (Buttons = {}));
+
+var Buttons;
+(function (Buttons) {
+    'use strict';
+    var ButtonsController = (function () {
+        function ButtonsController($state, $http, $scope) {
+            this.$state = $state;
+            this.$http = $http;
+            this.$scope = $scope;
+            this.userStocks = [];
+            this.userId = '(not selected)';
+
+            // Execute on every page reload
+            $scope.$on('$ionicView.enter', function () {
+                if (isRipple()) {
+                    var user = { userId: "TestUser1" };
+                    getUserFromWebService(user, $scope.vm);
+                }
+
+                readFromFile(getUserFromWebService, $scope.vm);
+            });
+
+            this.text1 = '';
+        }
+
+        return ButtonsController;
+    })();
+    Buttons.ButtonsController = ButtonsController;
+    angular.module(Constants.Paths.Buttons.Base)
+        .controller('buttonsController', ButtonsController);
 })(Buttons || (Buttons = {}));
 
 var Core;

@@ -1,6 +1,14 @@
 <ion-view view-title="Edit Stocks">
     <ion-content class=padding>
-        <h1>Buttons</h1>
-        <button class="button button-block button-light">button-light</button> <button class="button button-block button-stable">button-stable</button> <button class="button button-block button-positive">button-positive</button> <button class="button button-block button-assertive">button-assertive</button> <button class="button button-block button-balanced">button-balanced</button> <button class="button button-block button-energized">button-energized</button> <button class="button button-block button-calm">button-calm</button> <button class="button button-block button-royal">button-royal</button> <button class="button button-block button-dark">button-dark</button>
+        <h1>Edit Stocks for User: {{vm.userId}}</h1>
+        <ion-list>
+            <ion-item class="item-text-wrap" ng-repeat="userStock in vm.userStocks">
+                Ticker: {{userStock.stockTickerSymbol}} <br />
+                Amount Owned: {{userStock.amountOwned}} <br />
+                Buy Price: {{userStock.buyPrice}} <br />
+                Sell Price: {{userStock.sellPrice}} <br />
+            </ion-item>
+        </ion-list>
+        <button class="button button-block button-light">button-light</button> 
     </ion-content>
 </ion-view>
