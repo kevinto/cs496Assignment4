@@ -3,20 +3,20 @@
         <div class="list">
             <label class="item item-input">
                 <span class="input-label">Username</span>
-                <input type="text" ng-model="user.username">
+                <input type="text" ng-model="vm.userIdSignOn">
             </label>
             <label class="item item-input">
                 <span class="input-label">Password</span>
-                <input type="password" ng-model="user.password">
+                <input type="password" ng-model="vm.passwordSignOn">
             </label>
         </div>
         <div class="padding">
             <button class="button button-block button-positive" ng-click="vm.signIn(user)">
                 Sign-In
             </button>
-            <p class="text-center">
-                <a href="#/register">Register</a>
-            </p>
+            <button class="button button-block button-positive" ng-click="vm.goRegister(user)">
+                Register
+            </button>
         </div>
     </ion-content>
 </ion-view>

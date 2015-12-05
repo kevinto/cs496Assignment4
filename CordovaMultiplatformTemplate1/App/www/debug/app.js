@@ -43,7 +43,6 @@ var App;
     // Configure routes
     function statesConfiguration($urlRouterProvider, $ionicConfigProvider, $stateProvider) {
         $ionicConfigProvider.scrolling.jsScrolling(false);
-        console.log("hello");
         $stateProvider
           .state('signin', {
               url: '/sign-in',
@@ -169,6 +168,8 @@ var Home;
             this.emailWarning = '';
             this.requiredWarning = '';
             this.password = '';
+            this.userIdSignOn = '';
+            this.passwordSignOn = '';
         }
 
         HomeController.prototype.navigateToStockViewTab = function () {
@@ -185,7 +186,7 @@ var Home;
                 email: this.email,
                 firstName: this.firstName,
                 lastName: this.lastName
-            };      
+            };
 
             // Add a callback function here to redirect
             writeToFile(saveObj, _this.$state);
@@ -203,23 +204,46 @@ var Home;
         };
 
         HomeController.prototype.signIn = function () {
+            var _this = this;
             console.log("in the sign in method");
-            if (isRipple()) {
-                var user = { userId: "2", password: "password"};
-                postUserLogin(user, this.$scope.vm);
-            }
 
-            // Save the user token to the database.
+            var user = { userId: _this.userIdSignOn, password: _this.passwordSignOn };
+                // console.log("userid: " + _this.userIdSignOn);
+                // console.log("password: " + _this.passwordSignOn);
+            postUserLogin(user, this.$scope.vm, this.$state);
+
+            // Save the user token to the database. save in post user login
+            // writeTokenFile();
 
             // Move on to the actual application:
             // this.$state.go('tabs.home');
         };
-        
+
+        // HomeController.prototype.testRead = function () {
+        //     console.log("this is the test read method.");
+        //     readTokenFile(function(){}, this.$scope.vm, "token.txt");
+        // }; 
+
+        HomeController.prototype.goRegister = function () {
+            this.userIdSignOn = "";
+            this.passwordSignOn = "";
+            
+            this.$state.go('register');
+        };
+
         HomeController.prototype.registerUser = function () {
             console.log("in the register method");
-            console.log("the password is " + this.password);
-            // Move on to the actual application:
-            // this.$state.go('tabs.home');
+
+            var user = {
+                userId: this.userId,
+                password: this.password,
+                email: this.email,
+                firstName: this.firstName,
+                lastName: this.lastName
+            };
+
+            // This redirects to the login page after registration
+            putUserRegistration(user, this.$scope.vm, this.$state);
         };
 
         HomeController.$inject = ["$state", "$http", "$scope"];
@@ -504,7 +528,7 @@ function postUserFromWebService(user, scope) {
     });
 }
 
-function postUserLogin(user, scope) {
+function postUserLogin(user, scope, state) {
 
     // var dataToSend = JSON.stringify({ userId: user.userId, email: user.email, firstName: user.firstName, lastName: user.lastName, stockAlerts: stockAlerts });
     // Do a post call here with all the new information
@@ -519,7 +543,83 @@ function postUserLogin(user, scope) {
         headers: { 'Content-Type': 'application/json' }
     }).success(function (data) {
         console.log("success");
-        console.log(data);
+        console.log(data.token);
+        if (data.success == false) {
+            var saveObj = { token: "" };
+        }
+        else {
+            var saveObj = { token: data.token };
+        }
+        writeTokenFile(saveObj, state, "token.txt");
+    }).error(function (data) {
+        console.log("failed");
+    });
+}
+
+function writeTokenFile(data, state, fileName) {
+    if (isRipple()) {
+        console.log("Running from Ripple. Cannot write to file.");
+        return;
+    }
+
+    data = JSON.stringify(data, null, '\t');
+    window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function (directoryEntry) {
+        directoryEntry.getFile(fileName, { create: true }, function (fileEntry) {
+            fileEntry.createWriter(function (fileWriter) {
+                fileWriter.onwriteend = function (e) {
+                    // for real-world usage, you might consider passing a success callback
+                    // Get JSON here then pass
+                    console.log('Write of file "' + fileName + '"" completed.');
+                };
+
+                fileWriter.onerror = function (e) {
+                    // you could hook this up with our global error handler, or pass in an error callback
+                    console.log('Write failed: ' + e.toString());
+                };
+
+                var blob = new Blob([data], { type: 'text/plain' });
+                fileWriter.write(blob);
+
+                state.go('tabs.home');
+            }, errorHandler.bind(null, fileName));
+        }, errorHandler.bind(null, fileName));
+    }, errorHandler.bind(null, fileName));
+}
+
+function readTokenFile(callBackFunction, scope, fileName) {
+    if (isRipple()) {
+        console.log("Running from Ripple. Cannot read from system file.");
+        return;
+    }
+
+    var pathToFile = cordova.file.dataDirectory + fileName;
+    window.resolveLocalFileSystemURL(pathToFile, function (fileEntry) {
+        fileEntry.file(function (file) {
+            var reader = new FileReader();
+
+            reader.onloadend = function (e) {
+                console.log(this.result);
+                // callBackFunction(JSON.parse(this.result), scope);
+                return JSON.parse(this.result);
+            };
+
+            reader.readAsText(file);
+        }, errorHandler);
+    }, errorHandler);
+}
+
+function putUserRegistration(user, scope, state) {
+    var dataToSend = JSON.stringify(user);
+    var url = 'https://intense-ocean-3569.herokuapp.com/register';  // TODO use the heroku server later
+
+    scope.$http({
+        url: url,
+        method: "PUT",
+        data: dataToSend,
+        headers: { 'Content-Type': 'application/json' }
+    }).success(function (data) {
+        console.log("success");
+        state.go('signin');
     }).error(function (data) {
         console.log("failed");
     });
