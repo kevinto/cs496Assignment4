@@ -1,0 +1,34 @@
+﻿<ion-view view-title="Registration">
+    <ion-content padding="true">
+        <h2>Enter User Information: </h2>
+        <div class="list">
+            <label class="item item-input">
+                <span class="input-label">User Id</span>
+                <input type="text" required placeholder="User Id" ng-model=vm.userId>
+            </label>
+            <label class="item item-input">
+                <span class="input-label">Password</span>
+                <input type="password" required placeholder="Password" ng-model=vm.password>
+            </label>
+            <label class="item item-input">
+                <span class="input-label">Email</span>
+                <input type="email" placeholder="Email" ng-model=vm.email ng-blur=vm.validateEmail()>
+            </label>
+            <span style="color:red" ng-bind-html=vm.emailWarning></span>
+            <label class="item item-input">
+                <span class="input-label">First Name</span>
+                <input type="text" placeholder="First Name" ng-model=vm.firstName>
+            </label>
+            <label class="item item-input">
+                <span class="input-label">Last Name</span>
+                <input type="text" placeholder="Last Name" ng-model=vm.lastName>
+            </label>
+        </div>
+        <div class="padding">
+            <span style="color:red" ng-bind-html=vm.requiredWarning></span>
+            <a class="button button-block button-positive icon icon-right ion-chevron-right" ng-click=vm.registerUser()>
+                Register User
+            </a>
+        </div>
+    </ion-content>
+</ion-view>

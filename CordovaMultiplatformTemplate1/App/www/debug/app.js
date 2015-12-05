@@ -34,18 +34,32 @@ var App;
         Constants.Paths.Side.Base,
         Constants.Paths.Home.Base,
         Constants.Paths.Actions.Base,
-        Constants.Paths.Buttons.Base
+        Constants.Paths.Buttons.Base,
     ])
         .config(statesConfiguration);
     window['ionic'].Platform.ready(function () {
         angular.bootstrap(document.querySelector('body'), ['app']);
     });
     // Configure routes
-    function statesConfiguration($urlRouterProvider, $ionicConfigProvider) {
+    function statesConfiguration($urlRouterProvider, $ionicConfigProvider, $stateProvider) {
         $ionicConfigProvider.scrolling.jsScrolling(false);
-        $urlRouterProvider.otherwise('/tabs/home');
+        console.log("hello");
+        $stateProvider
+          .state('signin', {
+              url: '/sign-in',
+              templateUrl: Constants.Paths.Modules + 'login/views/login.html',
+              controller: 'homeController as vm'
+          })
+            .state('register', {
+                url: '/register',
+                templateUrl: Constants.Paths.Modules + 'login/views/register.html',
+                controller: 'homeController as vm'
+        });
+
+        //$urlRouterProvider.otherwise('/tabs/home');
+        $urlRouterProvider.otherwise('/sign-in');
     }
-    statesConfiguration.$inject = ["$urlRouterProvider", "$ionicConfigProvider"];
+    statesConfiguration.$inject = ["$urlRouterProvider", "$ionicConfigProvider", "$stateProvider"];
 })(App || (App = {}));
 
 var Actions;
@@ -92,7 +106,7 @@ var Actions;
                 // Get user info first I need to read user info
 
                 readFromFile(getUserFromWebService, $scope.vm);
-                console.log("init function()");
+                // console.log("init function()");
             });            
         }
 
@@ -144,17 +158,19 @@ var Home;
 (function (Home) {
     'use strict';
     var HomeController = (function () {
-        function HomeController($state) {
+        function HomeController($state, $http, $scope) {
             this.$state = $state;
+            this.$scope = $scope;
+            this.$http = $http;
             this.userId = '';
             this.email = '';
             this.firstName = '';
             this.lastName = '';
             this.emailWarning = '';
             this.requiredWarning = '';
+            this.password = '';
         }
 
-        HomeController.$inject = ["$state"];
         HomeController.prototype.navigateToStockViewTab = function () {
             var _this = this;
 
@@ -185,6 +201,28 @@ var Home;
                 _this.emailWarning = "";
             }
         };
+
+        HomeController.prototype.signIn = function () {
+            console.log("in the sign in method");
+            if (isRipple()) {
+                var user = { userId: "2", password: "password"};
+                postUserLogin(user, this.$scope.vm);
+            }
+
+            // Save the user token to the database.
+
+            // Move on to the actual application:
+            // this.$state.go('tabs.home');
+        };
+        
+        HomeController.prototype.registerUser = function () {
+            console.log("in the register method");
+            console.log("the password is " + this.password);
+            // Move on to the actual application:
+            // this.$state.go('tabs.home');
+        };
+
+        HomeController.$inject = ["$state", "$http", "$scope"];
 
         return HomeController;
     })();
@@ -364,13 +402,16 @@ var Tabs;
         .controller('navigationController', NavigationController);
 })(Tabs || (Tabs = {}));
 
-function writeToFile(data, state) {
+function writeToFile(data, state, fileName) {
     if (isRipple()) {
         console.log("Running from Ripple. Cannot write to file.");
         state.go('tabs.actions');
         return;
     }
-    var fileName = 'storage.txt';
+
+    if (typeof(fileName) === "undefined") {
+        var fileName = 'storage.txt';
+    }
 
     data = JSON.stringify(data, null, '\t');
     window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function (directoryEntry) {
@@ -396,13 +437,16 @@ function writeToFile(data, state) {
     }, errorHandler.bind(null, fileName));
 }
 
-function readFromFile(callBackFunction, scope) {
+function readFromFile(callBackFunction, scope, fileName) {
     if (isRipple()) {
         console.log("Running from Ripple. Cannot read from system file.");
         return;
     }
 
-    var fileName = 'storage.txt';
+    if (typeof(fileName) === "undefined") {
+        var fileName = 'storage.txt';
+    }
+
     var pathToFile = cordova.file.dataDirectory + fileName;
     window.resolveLocalFileSystemURL(pathToFile, function (fileEntry) {
         fileEntry.file(function (file) {
@@ -419,7 +463,6 @@ function readFromFile(callBackFunction, scope) {
 }
 
 function getUserFromWebService(user, scope) {
-
     console.log(user.userId);
     var url = 'https://intense-ocean-3569.herokuapp.com/users/userid/' + user.userId;
     scope.$http.get(url)
@@ -456,6 +499,27 @@ function postUserFromWebService(user, scope) {
         headers: { 'Content-Type': 'application/json' }
     }).success(function (data) {
         console.log("success");
+    }).error(function (data) {
+        console.log("failed");
+    });
+}
+
+function postUserLogin(user, scope) {
+
+    // var dataToSend = JSON.stringify({ userId: user.userId, email: user.email, firstName: user.firstName, lastName: user.lastName, stockAlerts: stockAlerts });
+    // Do a post call here with all the new information
+    // var url = 'https://intense-ocean-3569.herokuapp.com/user/';
+    var dataToSend = JSON.stringify(user);
+    var url = 'https://intense-ocean-3569.herokuapp.com/login';  // TODO use the heroku server later
+
+    scope.$http({
+        url: url,
+        method: "POST",
+        data: dataToSend,
+        headers: { 'Content-Type': 'application/json' }
+    }).success(function (data) {
+        console.log("success");
+        console.log(data);
     }).error(function (data) {
         console.log("failed");
     });

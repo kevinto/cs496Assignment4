@@ -120,6 +120,7 @@
     "plugins\\cordova-plugin-file\\src\\ubuntu\\file.cpp",
     "plugins\\cordova-plugin-file\\www\\browser\\Preparing.js",
     "res\\icons\\windows\\StoreLogo.scale-240.png",
+    "www\\modules\\login\\views\\register.html",
     "plugins\\cordova-plugin-file-transfer\\LICENSE",
     "plugins\\cordova-plugin-file\\www\\blackberry10\\removeRecursively.js",
     "plugins\\cordova-plugin-file\\tests\\plugin.xml",
@@ -145,6 +146,7 @@
     "plugins\\cordova-plugin-file\\www\\fileSystems.js",
     "plugins\\cordova-plugin-file-transfer\\src\\wp\\FileTransfer.cs",
     "plugins\\cordova-plugin-file\\www\\blackberry10\\getParent.js",
+    "www\\modules\\login\\views\\login.html",
     "plugins\\cordova-plugin-file-transfer\\src\\ubuntu\\file-transfer.h",
     "plugins\\cordova-plugin-file\\src\\ios\\CDVAssetLibraryFilesystem.h",
     "res\\screens\\ios\\screen-ipad-landscape-2x.png",
@@ -340,9 +342,7 @@
     "res\\icons\\windows\\Square44x44Logo.scale-240.png",
     "res\\screens\\android\\screen-mdpi-portrait.png",
     "tsd.json",
-    "www\\modules\\tabs\\templates\\tabs.html",
-    "www\\debug\\app.js~RFc43c9c4.TMP",
-    "merges\\android\\modules\\home\\views\\home.html~RFcca539e.TMP"
+    "www\\modules\\tabs\\templates\\tabs.html"
   ],
   "deletedFilesIos": [],
   "addedPluginsIos": [
