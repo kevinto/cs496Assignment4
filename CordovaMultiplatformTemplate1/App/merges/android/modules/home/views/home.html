@@ -1,31 +1,22 @@
-﻿<ion-view view-title="User">
-    <ion-content>
-        <h2>Enter User Information: </h2>
-        <div class="list">
-            <label class="item item-input">
-                <span class="input-label">User Id</span>
-                <input type="text" required placeholder="User Id" ng-model=vm.userId>
-            </label>
-            <label class="item item-input">
-                <span class="input-label">Email</span>
-                <input type="email" placeholder="Email" ng-model=vm.email ng-blur=vm.validateEmail()>
-            </label>
-            <span style="color:red" ng-bind-html=vm.emailWarning></span>
-            <label class="item item-input">
-                <span class="input-label">First Name</span>
-                <input type="text" placeholder="First Name" ng-model=vm.firstName>
-            </label>
-            <label class="item item-input">
-                <span class="input-label">Last Name</span>
-                <input type="text" placeholder="Last Name" ng-model=vm.lastName>
-            </label>            
-        </div>
+﻿<ion-view view-title="View Stocks">
+    <ion-nav-buttons side=right>
+        <!--<button class="button button-clear button-calm icon icon-only ion-ionic" ng-click=vm.addTextAsync()></button>-->
+    </ion-nav-buttons>
+    <ion-content class=padding>
+        <h1>Stocks Owned by User: {{vm.userId}}</h1>
+        <!--<input type="text" placeholder="What do you need to do?" ng-model=vm.task>-->
+        <ion-list>
+            <ion-item class="item-text-wrap" ng-repeat="userStock in vm.userStocks">
+                Ticker: {{userStock.stockTickerSymbol}} <br />
+                Amount Owned: {{userStock.amountOwned}} <br />
+                Buy Price: {{userStock.buyPrice}} <br />
+                Sell Price: {{userStock.sellPrice}} <br />
+            </ion-item>
+        </ion-list>
         <div class="padding">
-            <span style="color:red" ng-bind-html=vm.requiredWarning></span>
-            <a class="button button-block button-positive icon icon-right ion-chevron-right" ng-click=vm.navigateToStockViewTab()>
-                View Stocks
+            <a class="button button-block button-positive icon icon-right ion-chevron-right" ng-click=vm.navigateToStockEditTab()>
+                Edit Stocks
             </a>
         </div>
-        <!--<button class="button button-clear button-calm icon icon-only ion-ionic" ng-click=vm.navigateToStockViewTab()></button>-->
     </ion-content>
 </ion-view>

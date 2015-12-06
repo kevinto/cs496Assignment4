@@ -373,7 +373,9 @@
     "tsd.json",
     "www\\modules\\tabs\\templates\\tabs.html"
   ],
-  "deletedFilesIos": [],
+  "deletedFilesIos": [
+    "merges\\android\\modules\\tabs\\templates\\cv1xctuw.o4c~"
+  ],
   "addedPluginsIos": [
     "cordova-plugin-device@1.0.1",
     "cordova-plugin-file@3.0.0",

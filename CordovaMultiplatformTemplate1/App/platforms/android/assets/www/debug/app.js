@@ -170,8 +170,23 @@ var Home;
             this.password = '';
             this.userIdSignOn = '';
             this.passwordSignOn = '';
+
+            $scope.$on('$ionicView.enter', function () {
+                if (isRipple()) {
+                    var user = { userId: "TestUser1" };
+                    // remember to use this below too
+                    //getUserFromWebService(user, $http, this.userStocks);
+                    // getUserFromWebService(user, $scope.vm);
+                }
+                // Get user info first I need to read user info
+
+                // TODO - need to check this on app open
+                readTokenFile(getUserStocks, $scope.vm, "token.txt");
+                // console.log("init function()");
+            });  
         }
 
+        // TODO need to put this behavior after pressing sign in.
         HomeController.prototype.navigateToStockViewTab = function () {
             var _this = this;
 
@@ -208,8 +223,9 @@ var Home;
             console.log("in the sign in method");
 
             var user = { userId: _this.userIdSignOn, password: _this.passwordSignOn };
-                // console.log("userid: " + _this.userIdSignOn);
-                // console.log("password: " + _this.passwordSignOn);
+
+            // TODO - check if token file already exists with a valid token in it
+
             postUserLogin(user, this.$scope.vm, this.$state);
 
             // Save the user token to the database. save in post user login
@@ -227,7 +243,7 @@ var Home;
         HomeController.prototype.goRegister = function () {
             this.userIdSignOn = "";
             this.passwordSignOn = "";
-            
+
             this.$state.go('register');
         };
 
@@ -505,6 +521,28 @@ function getUserFromWebService(user, scope) {
     });
 }
 
+function getUserStocks(user, scope) {
+    var req = { 
+        method: 'GET',
+        url: 'https://intense-ocean-3569.herokuapp.com/user',
+        headers: { 'x-access-token': 'eyJhbGciOiJIUzI1NiJ9.OA.-jKMgFVv94eXL3AdO3CwaEymUcOsjoULIu6AnByjuis' },
+    };
+
+    scope.$http(req).then(function (data) {
+            console.log("Successfully got user data");
+            if (typeof(data)==='object' && data.data[0].stockAlerts.length > 0) {
+                scope.userId = data.data[0].userId;
+                scope.userStocks = [];
+                data.data[0].stockAlerts.forEach(function (element) {
+                    scope.userStocks.push(element);
+                });
+            }
+        },
+        function () {
+            console.log("No user found");
+        });
+}
+
 function postUserFromWebService(user, scope) {
 
     var stockAlerts = [];
@@ -529,10 +567,6 @@ function postUserFromWebService(user, scope) {
 }
 
 function postUserLogin(user, scope, state) {
-
-    // var dataToSend = JSON.stringify({ userId: user.userId, email: user.email, firstName: user.firstName, lastName: user.lastName, stockAlerts: stockAlerts });
-    // Do a post call here with all the new information
-    // var url = 'https://intense-ocean-3569.herokuapp.com/user/';
     var dataToSend = JSON.stringify(user);
     var url = 'https://intense-ocean-3569.herokuapp.com/login';  // TODO use the heroku server later
 
@@ -550,6 +584,7 @@ function postUserLogin(user, scope, state) {
         else {
             var saveObj = { token: data.token };
         }
+        
         writeTokenFile(saveObj, state, "token.txt");
     }).error(function (data) {
         console.log("failed");
@@ -599,7 +634,7 @@ function readTokenFile(callBackFunction, scope, fileName) {
 
             reader.onloadend = function (e) {
                 console.log(this.result);
-                // callBackFunction(JSON.parse(this.result), scope);
+                callBackFunction(JSON.parse(this.result), scope);
                 return JSON.parse(this.result);
             };
 
