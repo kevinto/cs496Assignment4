@@ -1,22 +1,27 @@
-﻿<ion-view view-title="View Stocks">
-    <ion-nav-buttons side=right>
-        <!--<button class="button button-clear button-calm icon icon-only ion-ionic" ng-click=vm.addTextAsync()></button>-->
-    </ion-nav-buttons>
+﻿<ion-view view-title="Add/View Stocks">
     <ion-content class=padding>
-        <h1>Stocks Owned by User: {{vm.userId}}</h1>
-        <!--<input type="text" placeholder="What do you need to do?" ng-model=vm.task>-->
+        <h1>Edit Stocks for User: {{vm.userId}}</h1>
         <ion-list>
             <ion-item class="item-text-wrap" ng-repeat="userStock in vm.userStocks">
-                Ticker: {{userStock.stockTickerSymbol}} <br />
-                Amount Owned: {{userStock.amountOwned}} <br />
-                Buy Price: {{userStock.buyPrice}} <br />
-                Sell Price: {{userStock.sellPrice}} <br />
+                <label class="item item-input">
+                    <span class="input-label">Ticker Symbol</span>
+                    <input type="text" placeholder={{userStock.stockTickerSymbol}} ng-model=userStock.stockTickerSymbol>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Amount Owned</span>
+                    <input type="number" placeholder={{userStock.amountOwned}} ng-model=userStock.amountOwned>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Buy Price</span>
+                    <input type="number" placeholder={{userStock.buyPrice}} ng-model=userStock.buyPrice>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Sell Price</span>
+                    <input type="number" placeholder={{userStock.sellPrice}} ng-model=userStock.sellPrice>
+                </label>
             </ion-item>
         </ion-list>
-        <div class="padding">
-            <a class="button button-block button-positive icon icon-right ion-chevron-right" ng-click=vm.navigateToStockEditTab()>
-                Edit Stocks
-            </a>
-        </div>
+        <button class="button button-block button-positive" ng-click=vm.saveChanges()>Save Changes</button>
+        <button class="button button-block button-positive" ng-click=vm.refreshView()>Refresh</button>
     </ion-content>
 </ion-view>

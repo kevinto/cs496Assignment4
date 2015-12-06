@@ -104,16 +104,18 @@ var Actions;
                 }
                 // Get user info first I need to read user info
 
-                readFromFile(getUserFromWebService, $scope.vm);
+                readTokenFile(getUserStocks, $scope.vm, "token.txt");
                 // console.log("init function()");
             });            
         }
 
-        ActionsController.$inject = ["$state", "$http", "$scope"];
+
         ActionsController.prototype.navigateToStockEditTab = function () {
             this.$state.go('tabs.buttons');
         };
 
+        ActionsController.$inject = ["$state", "$http", "$scope"];
+        
         return ActionsController;
     })();
     Actions.ActionsController = ActionsController;
@@ -260,6 +262,24 @@ var Home;
 
             // This redirects to the login page after registration
             putUserRegistration(user, this.$scope.vm, this.$state);
+        };
+
+        HomeController.prototype.saveChanges = function () {
+            var _this = this;
+
+            // TODO
+            readTokenFile(postUserFromWebService, _this, "token.txt");
+
+            return;
+        };
+
+        HomeController.prototype.refreshView = function () {
+            var _this = this;
+
+            // TODO
+            readTokenFile(getUserStocks, this.$scope.vm, "token.txt");
+
+            return;
         };
 
         HomeController.$inject = ["$state", "$http", "$scope"];
@@ -552,13 +572,13 @@ function postUserFromWebService(user, scope) {
 
     var dataToSend = JSON.stringify({ userId: user.userId, email: user.email, firstName: user.firstName, lastName: user.lastName, stockAlerts: stockAlerts });
     // Do a post call here with all the new information
-    var url = 'https://intense-ocean-3569.herokuapp.com/user/';
+    var url = 'https://intense-ocean-3569.herokuapp.com/user';
 
     scope.$http({
         url: url,
         method: "POST",
         data: dataToSend,
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 'Content-Type': 'application/json',  'x-access-token': user.token }
     }).success(function (data) {
         console.log("success");
     }).error(function (data) {
