@@ -253,10 +253,10 @@ var Home;
             // this.$state.go('tabs.home');
         };
 
-        // HomeController.prototype.testRead = function () {
-        //     console.log("this is the test read method.");
-        //     readTokenFile(function(){}, this.$scope.vm, "token.txt");
-        // }; 
+        HomeController.prototype.testRead = function () {
+            console.log("this is the test read method.");
+            readTokenFile(function(){}, this.$scope.vm, "token.txt");
+        }; 
 
         HomeController.prototype.goRegister = function () {
             this.userIdSignOn = "";
@@ -295,6 +295,13 @@ var Home;
 
             return;
         };
+
+        HomeController.prototype.logOut = function () {
+            logOutWriteToken({ token: '' }, this.$state, 'token.txt');
+
+            return;
+        };
+
 
         HomeController.$inject = ["$state", "$http", "$scope"];
 
@@ -640,7 +647,9 @@ function postUserFromWebService(user, scope) {
 function postUserLogin(user, scope, state) {
     var dataToSend = JSON.stringify(user);
     var url = 'https://intense-ocean-3569.herokuapp.com/login';  // TODO use the heroku server later
-
+    scope.passwordSignOn = '';
+    scope.userIdSignOn = '';
+    
     scope.$http({
         url: url,
         method: "POST",
@@ -687,6 +696,36 @@ function writeTokenFile(data, state, fileName) {
                 fileWriter.write(blob);
 
                 state.go('tabs.home');
+            }, errorHandler.bind(null, fileName));
+        }, errorHandler.bind(null, fileName));
+    }, errorHandler.bind(null, fileName));
+}
+
+function logOutWriteToken(data, state, fileName) {
+    if (isRipple()) {
+        console.log("Running from Ripple. Cannot write to file.");
+        return;
+    }
+
+    data = JSON.stringify(data, null, '\t');
+    window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function (directoryEntry) {
+        directoryEntry.getFile(fileName, { create: true }, function (fileEntry) {
+            fileEntry.createWriter(function (fileWriter) {
+                fileWriter.onwriteend = function (e) {
+                    // for real-world usage, you might consider passing a success callback
+                    // Get JSON here then pass
+                    console.log('Write of file "' + fileName + '"" completed.');
+                };
+
+                fileWriter.onerror = function (e) {
+                    // you could hook this up with our global error handler, or pass in an error callback
+                    console.log('Write failed: ' + e.toString());
+                };
+
+                var blob = new Blob([data], { type: 'text/plain' });
+                fileWriter.write(blob);
+
+                state.go('signin');
             }, errorHandler.bind(null, fileName));
         }, errorHandler.bind(null, fileName));
     }, errorHandler.bind(null, fileName));
