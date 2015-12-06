@@ -13,10 +13,28 @@
                 Sell Price: {{userStock.sellPrice}} <br />
             </ion-item>
         </ion-list>
-        <div class="padding">
-            <a class="button button-block button-positive icon icon-right ion-chevron-right" ng-click=vm.navigateToStockEditTab()>
-                Edit Stocks
-            </a>
+        <h2>Enter New Stock</h2>
+        <div class="list">
+            <label class="item item-input">
+                <span class="input-label">Ticker</span>
+                <input type="text" ng-model="vm.addTicker">
+            </label>
+            <label class="item item-input">
+                <span class="input-label">Amount Owned</span>
+                <input type="number" ng-model="vm.addAmountOwned">
+            </label>
+            <label class="item item-input">
+                <span class="input-label">Buy Price</span>
+                <input type="number" ng-model="vm.addBuyPrice">
+            </label>
+            <label class="item item-input">
+                <span class="input-label">Sell Price</span>
+                <input type="number" ng-model="vm.addSellPrice">
+            </label>
+            <button class="button button-block button-positive" ng-click="vm.addStock(stock)">
+                Add Stock
+            </button>
+            <button class="button button-block button-positive" ng-click=vm.refreshView()>Refresh</button>
         </div>
     </ion-content>
 </ion-view>

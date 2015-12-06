@@ -92,7 +92,11 @@ var Actions;
             this.$http = $http;
             this.$scope = $scope;
             this.userStocks = [];
-            this.userId = '(not selected)';          
+            this.userId = '(not selected)';
+            this.addTicker = ''; 
+            this.addAmountOwned = '';
+            this.addBuyPrice = '';
+            this.addSellPrice = '';
 
             // this works. for doing a page reload
             $scope.$on('$ionicView.enter', function () {
@@ -104,7 +108,7 @@ var Actions;
                 }
                 // Get user info first I need to read user info
 
-                //readTokenFile(getUserStocks, $scope.vm, "token.txt");
+                readTokenFile(getUserStocks, $scope.vm, "token.txt");
                 // console.log("init function()");
             });            
         }
@@ -112,6 +116,17 @@ var Actions;
 
         ActionsController.prototype.navigateToStockEditTab = function () {
             this.$state.go('tabs.buttons');
+        };
+
+        ActionsController.prototype.addStock = function () {
+            // Post everything
+            readTokenFile(postUserFromWebService, this, "token.txt");
+        };
+
+        ActionsController.prototype.refreshView = function () {
+            readTokenFile(getUserStocks, this.$scope.vm, "token.txt");
+
+            return;
         };
 
         ActionsController.$inject = ["$state", "$http", "$scope"];
@@ -274,9 +289,7 @@ var Home;
         };
 
         HomeController.prototype.refreshView = function () {
-            var _this = this;
 
-            // TODO
             readTokenFile(getUserStocks, this.$scope.vm, "token.txt");
 
             return;
@@ -570,7 +583,15 @@ function postUserFromWebService(user, scope) {
         stockAlerts.push({ stockTickerSymbol: element.stockTickerSymbol, amountOwned: element.amountOwned, buyPrice: element.buyPrice, sellPrice: element.sellPrice });
     });
 
-    var dataToSend = JSON.stringify({ userId: user.userId, email: user.email, firstName: user.firstName, lastName: user.lastName, stockAlerts: stockAlerts });
+    if (typeof (scope.addTicker) != 'undefined') {
+        stockAlerts.push({ stockTickerSymbol: scope.addTicker, amountOwned: scope.addAmountOwned, buyPrice: scope.addBuyPrice, sellPrice: scope.addSellPrice });
+        scope.addTicker = ''; 
+        scope.addAmountOwned = '';
+        scope.addBuyPrice = '';
+        scope.addSellPrice = '';
+    }
+    
+    var dataToSend = JSON.stringify({ stockAlerts: stockAlerts });
     // Do a post call here with all the new information
     var url = 'https://intense-ocean-3569.herokuapp.com/user';
 
