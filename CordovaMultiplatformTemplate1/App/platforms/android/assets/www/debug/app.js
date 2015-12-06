@@ -189,15 +189,10 @@ var Home;
             this.userIdSignOn = '';
             this.passwordSignOn = '';
 
-            $scope.$on('$ionicView.enter', function () {
-                if (isRipple()) {
-                    var user = { userId: "TestUser1" };
-                    // remember to use this below too
-                    //getUserFromWebService(user, $http, this.userStocks);
-                    // getUserFromWebService(user, $scope.vm);
-                }
-                // Get user info first I need to read user info
+            readTokenFileThenHome(getUserStocks, $scope.vm, "token.txt", this.$state);
+            // this.$state.go('tabs.home');
 
+            $scope.$on('$ionicView.enter', function () {
                 // TODO - need to check this on app open
                 readTokenFile(getUserStocks, $scope.vm, "token.txt");
                 // console.log("init function()");
@@ -574,12 +569,13 @@ function getUserStocks(user, scope) {
         url: 'https://intense-ocean-3569.herokuapp.com/user',
         headers: { 'x-access-token': user.token },
     };
-
+    scope.userStocks = [];
     scope.$http(req).then(function (data) {
             console.log("Successfully got user data");
+            scope.userId = data.data[0].userId;
             if (typeof(data)==='object' && data.data[0].stockAlerts.length > 0) {
                 scope.userId = data.data[0].userId;
-                scope.userStocks = [];
+                
                 data.data[0].stockAlerts.forEach(function (element) {
                     scope.userStocks.push(element);
                 });
@@ -745,6 +741,33 @@ function readTokenFile(callBackFunction, scope, fileName) {
             reader.onloadend = function (e) {
                 console.log(this.result);
                 callBackFunction(JSON.parse(this.result), scope);
+                return JSON.parse(this.result);
+            };
+
+            reader.readAsText(file);
+        }, errorHandler);
+    }, errorHandler);
+}
+
+function readTokenFileThenHome(callBackFunction, scope, fileName, state) {
+    if (isRipple()) {
+        console.log("Running from Ripple. Cannot read from system file.");
+        return;
+    }
+
+    var pathToFile = cordova.file.dataDirectory + fileName;
+    window.resolveLocalFileSystemURL(pathToFile, function (fileEntry) {
+        fileEntry.file(function (file) {
+            var reader = new FileReader();
+
+            reader.onloadend = function (e) {
+                console.log(this.result);
+                var tokenObj = JSON.parse(this.result);
+                if (tokenObj.token != "") {
+                    //callBackFunction(JSON.parse(this.result), scope);
+                    state.go('tabs.home');
+                }
+
                 return JSON.parse(this.result);
             };
 
