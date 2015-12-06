@@ -19,8 +19,10 @@
                     <span class="input-label">Sell Price</span>
                     <input type="number" placeholder={{userStock.sellPrice}} ng-model=userStock.sellPrice>
                 </label>
+                <a class="button button-block button-assertive" ng-click=vm.deleteAlert(userStock)>
+                    Delete
+                </a>
             </ion-item>
         </ion-list>
-        <button class="button button-block button-light" ng-click=vm.saveChanges()>Save Changes</button>
     </ion-content>
 </ion-view>

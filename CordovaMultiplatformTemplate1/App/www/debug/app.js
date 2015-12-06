@@ -124,6 +124,7 @@ var Actions;
         };
 
         ActionsController.prototype.refreshView = function () {
+            this.$scope.vm.userStocks = [];
             readTokenFile(getUserStocks, this.$scope.vm, "token.txt");
 
             return;
@@ -289,7 +290,7 @@ var Home;
         };
 
         HomeController.prototype.refreshView = function () {
-
+            this.$scope.vm.userStocks = [];
             readTokenFile(getUserStocks, this.$scope.vm, "token.txt");
 
             return;
@@ -339,15 +340,11 @@ var Buttons;
             this.email = '';
             this.firstName = '';
             this.lastName = '';
+            this.stockToDelete = '';
 
             // Execute on every page reload
             $scope.$on('$ionicView.enter', function () {
-                if (isRipple()) {
-                    var user = { userId: "TestUser1" };
-                    getUserFromWebService(user, $scope.vm);
-                }
-
-                readFromFile(getUserFromWebService, $scope.vm);
+                readTokenFile(getUserStocks, $scope.vm, "token.txt");
             });
 
             this.text1 = '';
@@ -366,6 +363,12 @@ var Buttons;
             }
             readFromFile(postUserFromWebService, _this);
 
+            return;
+        };
+
+        ButtonsController.prototype.deleteAlert = function (userStock) {
+            this.stockToDelete = userStock.stockTickerSymbol;
+            readTokenFile(deleteUserStock, this.$scope.vm, "token.txt");
             return;
         };
 
@@ -555,10 +558,14 @@ function getUserFromWebService(user, scope) {
 }
 
 function getUserStocks(user, scope) {
+    if (!user.token) {
+        console.log("token is missing in get User stocks!!");
+    }
+
     var req = { 
         method: 'GET',
         url: 'https://intense-ocean-3569.herokuapp.com/user',
-        headers: { 'x-access-token': 'eyJhbGciOiJIUzI1NiJ9.OA.-jKMgFVv94eXL3AdO3CwaEymUcOsjoULIu6AnByjuis' },
+        headers: { 'x-access-token': user.token },
     };
 
     scope.$http(req).then(function (data) {
@@ -576,15 +583,38 @@ function getUserStocks(user, scope) {
         });
 }
 
+function deleteUserStock(user, scope) {
+    if (!user.token) {
+        console.log("token is missing in delete User stocks!!");
+    }
+
+    var req = { 
+        method: 'DELETE',
+        url: 'https://intense-ocean-3569.herokuapp.com/user/stock/' + scope.stockToDelete,
+        headers: { 'x-access-token': user.token },
+    };
+
+    scope.$http(req).then(function (data) {
+            console.log("delete successful");
+            
+            // Refreshes the delete page
+            scope.userStocks = [];
+            readTokenFile(getUserStocks, scope, "token.txt");
+        },
+        function () {
+            console.log("No user found");
+        });
+}
+
 function postUserFromWebService(user, scope) {
 
     var stockAlerts = [];
     scope.userStocks.forEach(function (element) {
-        stockAlerts.push({ stockTickerSymbol: element.stockTickerSymbol, amountOwned: element.amountOwned, buyPrice: element.buyPrice, sellPrice: element.sellPrice });
+        stockAlerts.push({ stockTickerSymbol: element.stockTickerSymbol.toUpperCase(), amountOwned: element.amountOwned, buyPrice: element.buyPrice, sellPrice: element.sellPrice });
     });
 
     if (typeof (scope.addTicker) != 'undefined') {
-        stockAlerts.push({ stockTickerSymbol: scope.addTicker, amountOwned: scope.addAmountOwned, buyPrice: scope.addBuyPrice, sellPrice: scope.addSellPrice });
+        stockAlerts.push({ stockTickerSymbol: scope.addTicker.toUpperCase(), amountOwned: scope.addAmountOwned, buyPrice: scope.addBuyPrice, sellPrice: scope.addSellPrice });
         scope.addTicker = ''; 
         scope.addAmountOwned = '';
         scope.addBuyPrice = '';
